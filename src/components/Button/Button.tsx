@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 export type ButtonProps = {
   linkTo?: string,
-  onClick: () => void,
+  onClick?: () => void,
   children: string,
 };
 

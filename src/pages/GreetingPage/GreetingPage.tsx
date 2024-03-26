@@ -5,6 +5,8 @@ export const GreetingPage = () => {
   return (
     <div>
       <Button onClick={()=>{}} >Hello!</Button>
+      <Button onClick={()=>{}} linkTo='/catalog'>Link</Button>
+      <Button onClick={()=>{}} >Hello!</Button>
     </div>
   );
 };

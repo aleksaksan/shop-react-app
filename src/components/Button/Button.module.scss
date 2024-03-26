@@ -1,17 +1,23 @@
 .button {
   background-color: #000;
   border-radius: 4px;
-  padding: 2px auto;
+  padding: 2px 0;
   cursor: pointer;
   width: 100%;
+  display: block;
 
   font-family: 'Stolzl';
   font-weight: 400;
   font-size: 16px;
   line-height: 19px;
   color: #fff;
-}
 
-.button:active {
-  background-color: #263CFF;
+  text-decoration: none;
+  text-align: center;
+  border: none;
+  outline: none;
+
+  &:active {
+    background-color: #263CFF;
+  }
 }
