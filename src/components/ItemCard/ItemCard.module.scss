@@ -60,3 +60,18 @@
   }
 }
 
+.amount_container {
+  display: flex;
+  justify-content: space-between;
+
+  &>button {
+    width: 28px;
+    height: 24px;
+  }
+
+  &>div {
+    font-family: $Stolzl;
+    font-weight: 400;
+    font-size: 16px;
+  }
+}

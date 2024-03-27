@@ -21,10 +21,11 @@ export const ItemCard = (props: ItemCardProps) => {
       </div>
       <h2>{props.title}</h2>
       <p>{props.description}</p>
-      { props.amount ?
+      { !props.amount ?
       <div className={styles.amount_container}>
         <Button>-</Button>
-        <div>{props.amount}</div>
+        <div>1</div>
+        {/* <div>{props.amount}</div> */}
         <Button>+</Button>
       </div>
       :
