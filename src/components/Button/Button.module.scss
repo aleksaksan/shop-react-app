@@ -1,3 +1,5 @@
+@import '../../styles/common';
+
 .button {
   background-color: #000;
   border-radius: 4px;
@@ -6,7 +8,7 @@
   width: 100%;
   display: block;
 
-  font-family: 'Stolzl';
+  font-family: $Stolzl;
   font-weight: 400;
   font-size: 16px;
   line-height: 19px;

@@ -17,7 +17,7 @@ export const ItemCard = (props: ItemCardProps) => {
       <div className={styles.image_wrapper}>
         <img src={props.src} alt={props.title} />
         <div className={styles.weight}>{props.weight} г</div>
-        <div className={styles.pricw}>{props.price} ₽</div>
+        <div className={styles.price}>{props.price} ₽</div>
       </div>
       <h2>{props.title}</h2>
       <p>{props.description}</p>
