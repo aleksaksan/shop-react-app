@@ -21,7 +21,7 @@
 }
 
 .image_wrapper {
-  border: 1px solid #000;
+  border: 1px solid $common-black;
   border-radius: 6px;
   position: relative;
   overflow: hidden;
@@ -45,7 +45,7 @@
   }
 
   &>.price {
-    background-color: #000;
+    background-color: $common-black;
     border-radius: 4px;
     padding: 1px 2px 0;
     font-family: 'Times New Roman', Times, serif;
@@ -53,7 +53,7 @@
     font-weight: 400;
     font-size: 16px;
     letter-spacing: 0.14em;
-    color: #fff;
+    color: $common-white;
     position: absolute;
     right: 6px;
     bottom: 6px;
