@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './ItemCard.module.scss';
 import { Button } from '../Button/Button';
 
@@ -8,10 +8,19 @@ export type ItemCardProps = {
   price?: number,
   title: string,
   description?: string,
-  amount?: number,
+  // amount?: number,
 };
 
 export const ItemCard = (props: ItemCardProps) => {
+  const [amount, setAmount] = useState(0);
+
+  const increment = () => {
+    setAmount(amount + 1)
+  };
+  const decrement = () => {
+    setAmount(amount - 1)
+  };
+
   return (
     <div className={styles.card}>
       <div className={styles.image_wrapper}>
@@ -21,15 +30,14 @@ export const ItemCard = (props: ItemCardProps) => {
       </div>
       <h2>{props.title}</h2>
       <p>{props.description}</p>
-      { !props.amount ?
+      { amount ?
       <div className={styles.amount_container}>
-        <Button>-</Button>
-        <div>1</div>
-        {/* <div>{props.amount}</div> */}
-        <Button>+</Button>
+        <Button onClick={decrement}>-</Button>
+        <div>{amount}</div>
+        <Button onClick={increment}>+</Button>
       </div>
       :
-      <Button>В КОРЗИНУ</Button>
+      <Button onClick={increment}>В КОРЗИНУ</Button>
       }
     </div>
   );
