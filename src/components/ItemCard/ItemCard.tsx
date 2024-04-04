@@ -3,8 +3,9 @@ import styles from './ItemCard.module.scss';
 import { Button } from '../Button/Button';
 
 export type ItemCardProps = {
+  id: string | number,
   src?: string,
-  weight?: number,
+  weight?: string | number,
   price?: number,
   title: string,
   description?: string,
