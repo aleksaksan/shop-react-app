@@ -1,25 +1,26 @@
-import React, { useState } from 'react';
 import styles from './ItemCard.module.scss';
 import { Button } from '../Button/Button';
+import { useAppDispatch } from '../../hooks/storeHooks';
+import { add, remove } from '../../store/catalogSlice';
 
 export type ItemCardProps = {
-  id: string | number,
+  id: string,
   src?: string,
   weight?: string | number,
   price?: number,
   title: string,
   description?: string,
-  // amount?: number,
+  quantity?: number,
 };
 
 export const ItemCard = (props: ItemCardProps) => {
-  const [amount, setAmount] = useState(0);
+  const dispatch = useAppDispatch();
 
-  const increment = () => {
-    setAmount(amount + 1)
+  const increment = (id: string) => {
+    dispatch(add(id))
   };
-  const decrement = () => {
-    setAmount(amount - 1)
+  const decrement = (id: string) => {
+    dispatch(remove(id))
   };
 
   return (
@@ -31,14 +32,14 @@ export const ItemCard = (props: ItemCardProps) => {
       </div>
       <h2>{props.title}</h2>
       <p>{props.description}</p>
-      { amount ?
+      { props.quantity ?
       <div className={styles.amount_container}>
-        <Button onClick={decrement}>-</Button>
-        <div>{amount}</div>
-        <Button onClick={increment}>+</Button>
+        <Button onClick={() => decrement(props.id)}>-</Button>
+        <div>{props.quantity}</div>
+        <Button onClick={() =>increment(props.id)}>+</Button>
       </div>
       :
-      <Button onClick={increment}>В КОРЗИНУ</Button>
+      <Button onClick={() => increment(props.id)}>В КОРЗИНУ</Button>
       }
     </div>
   );
