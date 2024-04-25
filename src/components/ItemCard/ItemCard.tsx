@@ -36,7 +36,7 @@ export const ItemCard = (props: ItemCardProps) => {
       <div className={styles.amount_container}>
         <Button onClick={() => decrement(props.id)}>-</Button>
         <div>{props.quantity}</div>
-        <Button onClick={() =>increment(props.id)}>+</Button>
+        <Button onClick={() => increment(props.id)}>+</Button>
       </div>
       :
       <Button onClick={() => increment(props.id)}>В КОРЗИНУ</Button>

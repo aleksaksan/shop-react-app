@@ -4,7 +4,7 @@ import catalogReducer from './catalogSlice';
 const store = configureStore({
   reducer: {
     // todos: todoReducer,
-    items: catalogReducer,
+    catalog: catalogReducer,
   },
 });
 
