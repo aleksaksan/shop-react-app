@@ -32,7 +32,7 @@ export const CatalogPage = () => {
         error :
         <div className={styles.catalog}>
           {list.map(item => (
-            <ItemCard id={item.id} title={item.title} description={item.description} src={item.src} weight={item.weight} price={item.price} key={item.id} />
+            <ItemCard id={item.id} title={item.title} description={item.description} src={item.src} weight={item.weight} price={item.price} key={item.id} quantity={item.quantity} />
           ))}
         </div>}
     </>
