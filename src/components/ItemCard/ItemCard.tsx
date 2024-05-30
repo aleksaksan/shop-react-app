@@ -2,6 +2,7 @@ import styles from './ItemCard.module.scss';
 import { Button } from '../Button/Button';
 import { useAppDispatch } from '../../hooks/storeHooks';
 import { add, remove } from '../../store/catalogSlice';
+import { Link } from 'react-router-dom';
 
 export type ItemCardProps = {
   id: string,
@@ -25,13 +26,7 @@ export const ItemCard = (props: ItemCardProps) => {
 
   return (
     <div className={styles.card}>
-      <div className={styles.image_wrapper}>
-        <img src={props.src} alt={props.title} />
-        <div className={styles.weight}>{props.weight} г</div>
-        <div className={styles.price}>{props.price} ₽</div>
-      </div>
-      <h2>{props.title}</h2>
-      <p>{props.description}</p>
+      <ItemLink {...props}/>
       { props.quantity ?
       <div className={styles.amount_container}>
         <Button onClick={() => decrement(props.id)}>-</Button>
@@ -44,3 +39,18 @@ export const ItemCard = (props: ItemCardProps) => {
     </div>
   );
 };
+
+export const ItemLink = (props: ItemCardProps) => {
+
+  return (
+    <Link to={props.id} >
+      <div className={styles.image_wrapper}>
+        <img src={props.src} alt={props.title} />
+        <div className={styles.weight}>{props.weight} г</div>
+        <div className={styles.price}>{props.price} ₽</div>
+      </div>
+      <h2>{props.title}</h2>
+      <p>{props.description}</p>
+    </Link>
+  )
+}

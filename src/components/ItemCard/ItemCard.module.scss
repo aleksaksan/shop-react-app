@@ -3,20 +3,24 @@
 .card {
   width: 170px;
 
-  &>h2 {
-    margin: 8px 0 4px;
-    font-family: $Stolzl;
-    font-size: 20px;
-    line-height: 110%;
-    font-weight: 400;
-  }
-
-  &>p {
-    font-family: $Stolzl300;
-    font-size: 14px;
-    font-weight: 300;
-    line-height: 14px;
-    margin-bottom: 8px;
+  &>a {
+    text-decoration: none;
+    
+    &>h2 {
+      margin: 8px 0 4px;
+      font-family: $Stolzl;
+      font-size: 20px;
+      line-height: 110%;
+      font-weight: 400;
+    }
+  
+    &>p {
+      font-family: $Stolzl300;
+      font-size: 14px;
+      font-weight: 300;
+      line-height: 14px;
+      margin-bottom: 8px;
+    }
   }
 }
 
