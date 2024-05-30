@@ -1,5 +1,5 @@
-import { DndContext, DragEndEvent, MouseSensor, TouchSensor, closestCenter, useSensor, useSensors } from '@dnd-kit/core';
-import { SortableContext, useSortable } from '@dnd-kit/sortable';
+import { DndContext, DragEndEvent, DragStartEvent, MouseSensor, TouchSensor, closestCenter, useSensor, useSensors } from '@dnd-kit/core';
+import { SortableContext, arrayMove, useSortable } from '@dnd-kit/sortable';
 import { useCallback, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/storeHooks';
 import { Item, fetchCatalog } from '../../store/catalogSlice';
@@ -12,7 +12,6 @@ export const CatalogEditPage = () => {
   const { list } = useAppSelector(state => state.catalog)
   const [items, setItems ] = useState<Item[]>([]);
   // const { isLoading, list, error } = useAppSelector(state => state.catalog)
-  
 
   useEffect(() => {
     dispatch(fetchCatalog());
@@ -20,28 +19,31 @@ export const CatalogEditPage = () => {
 
   useEffect(() => {
     setItems(list);
-  }, [list])
-
+  }, [list]);
 
   const sensors = useSensors(
     useSensor(MouseSensor, { activationConstraint: { distance: 5 } }),
     useSensor(TouchSensor, { activationConstraint: { delay: 50, tolerance: 10 } })
   );
 
+  const handleDragStart = (event: DragStartEvent) => {
+    console.log('start', event);
+    event.active
+  };
+
   const handleDragEnd = useCallback((event: DragEndEvent) => {
     console.log('on drag end', event)
-    // const { active, over } = event;
+    const { active, over } = event;
 
-    // if (over && active.id !== over.id) {
-    //   setPhotos((items) => {
-    //     const oldIndex = items.findIndex((item) => item.id === active.id);
-    //     const newIndex = items.findIndex((item) => item.id === over.id);
+    if (over && active.id !== over.id) {
+      setItems((items) => {
+        const oldIndex = items.findIndex((item) => item.id === active.id);
+        const newIndex = items.findIndex((item) => item.id === over.id);
 
-    //     return arrayMove(items, oldIndex, newIndex);
-    //   });
-    // }
-
-    // setActiveId(undefined);
+        return arrayMove(items, oldIndex, newIndex);
+      });
+    }
+    
   }, []);
 
   return (
@@ -50,6 +52,7 @@ export const CatalogEditPage = () => {
         sensors={sensors}
         collisionDetection={closestCenter}
         onDragEnd={handleDragEnd}
+        onDragStart={handleDragStart}
       >
         <SortableContext items={items}>
           {items.map(item =>
@@ -79,8 +82,9 @@ const SortableItem = (props: ItemCardProps) => {
     } = useSortable({id: props.id});
 
     const style = {
-        transform: CSS.Transform.toString(transform),
-        transition
+      zIndex: 10,
+      transform: CSS.Transform.toString(transform),
+      transition,
     }
 
   return (
