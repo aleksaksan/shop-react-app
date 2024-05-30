@@ -1,4 +1,4 @@
-import { DndContext, DragEndEvent, DragStartEvent, MouseSensor, TouchSensor, closestCenter, useSensor, useSensors } from '@dnd-kit/core';
+import { DndContext, DragEndEvent, MouseSensor, TouchSensor, closestCenter, useSensor, useSensors } from '@dnd-kit/core';
 import { SortableContext, arrayMove, useSortable } from '@dnd-kit/sortable';
 import { useCallback, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/storeHooks';
@@ -26,13 +26,7 @@ export const CatalogEditPage = () => {
     useSensor(TouchSensor, { activationConstraint: { delay: 50, tolerance: 10 } })
   );
 
-  const handleDragStart = (event: DragStartEvent) => {
-    console.log('start', event);
-    event.active
-  };
-
   const handleDragEnd = useCallback((event: DragEndEvent) => {
-    console.log('on drag end', event)
     const { active, over } = event;
 
     if (over && active.id !== over.id) {
@@ -52,7 +46,6 @@ export const CatalogEditPage = () => {
         sensors={sensors}
         collisionDetection={closestCenter}
         onDragEnd={handleDragEnd}
-        onDragStart={handleDragStart}
       >
         <SortableContext items={items}>
           {items.map(item =>
