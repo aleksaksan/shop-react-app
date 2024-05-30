@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction, createAsyncThunk, Action } from '@reduxjs/toolkit';
 
-type Item = {
+export type Item = {
   id: string;
   title: string;
   price: number;

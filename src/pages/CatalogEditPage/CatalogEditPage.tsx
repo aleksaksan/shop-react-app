@@ -1,40 +1,57 @@
-import { DndContext, DragEndEvent } from '@dnd-kit/core';
-import { SortableContext, arrayMove, useSortable } from '@dnd-kit/sortable';
-import React, { FC, useEffect, useState } from 'react';
+import { DndContext, DragEndEvent, MouseSensor, TouchSensor, closestCenter, useSensor, useSensors } from '@dnd-kit/core';
+import { SortableContext, useSortable } from '@dnd-kit/sortable';
+import { useCallback, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/storeHooks';
-import { fetchCatalog } from '../../store/catalogSlice';
+import { Item, fetchCatalog } from '../../store/catalogSlice';
 import { ItemCard, ItemCardProps } from '../../components/ItemCard/ItemCard';
+import { CSS } from '@dnd-kit/utilities';
+import style from '../CatalogPage/CatalogPage.module.scss';
 
 export const CatalogEditPage = () => {
   const dispatch = useAppDispatch();
   const { list } = useAppSelector(state => state.catalog)
-  const [items, setSetItems ] = useState(list);
+  const [items, setItems ] = useState<Item[]>([]);
   // const { isLoading, list, error } = useAppSelector(state => state.catalog)
+  
 
   useEffect(() => {
     dispatch(fetchCatalog());
   }, [dispatch]);
 
-  const handleDragEnd = (event: DragEndEvent) => {
-    console.log("Drag end called");
-    const {active, over} = event;
-    console.log("ACTIVE: " + active.id);
-    console.log("OVER :" + over.id);
+  useEffect(() => {
+    setItems(list);
+  }, [list])
 
-    if(active.id !== over.id) {
-      setSetItems((items) => {
-        const activeIndex = items.indexOf(active.id);
-        const overIndex = items.indexOf(over.id);
-        console.log(arrayMove(items, activeIndex, overIndex));
-        return arrayMove(items, activeIndex, overIndex);
-      });
-    }
-  }
+
+  const sensors = useSensors(
+    useSensor(MouseSensor, { activationConstraint: { distance: 5 } }),
+    useSensor(TouchSensor, { activationConstraint: { delay: 50, tolerance: 10 } })
+  );
+
+  const handleDragEnd = useCallback((event: DragEndEvent) => {
+    console.log('on drag end', event)
+    // const { active, over } = event;
+
+    // if (over && active.id !== over.id) {
+    //   setPhotos((items) => {
+    //     const oldIndex = items.findIndex((item) => item.id === active.id);
+    //     const newIndex = items.findIndex((item) => item.id === over.id);
+
+    //     return arrayMove(items, oldIndex, newIndex);
+    //   });
+    // }
+
+    // setActiveId(undefined);
+  }, []);
 
   return (
-    <div>
-      <DndContext onDragEnd={handleDragEnd} >
-        <SortableContext items={items} >
+    <div className={style.catalog}>
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragEnd={handleDragEnd}
+      >
+        <SortableContext items={items}>
           {items.map(item =>
             <SortableItem 
               key={item.id} 
@@ -52,20 +69,22 @@ export const CatalogEditPage = () => {
 };
 
 
-const SortableItem: FC<ItemCardProps> = (props) => {
+const SortableItem = (props: ItemCardProps) => {
     const {
       attributes,
       listeners,
       setNodeRef,
+      transition,
+      transform
     } = useSortable({id: props.id});
 
-  // const style = {
-  //     transform: CSS.Transform.toString(transform),
-  //     transition
-  // }
+    const style = {
+        transform: CSS.Transform.toString(transform),
+        transition
+    }
 
   return (
-      <div ref={setNodeRef} {...attributes} {...listeners}>
+      <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
           <ItemCard {...props}/>
       </div>
   )

@@ -40,7 +40,8 @@ export const CatalogPage = () => {
               weight={item.weight}
               price={item.price}
               key={item.id}
-              quantity={item.quantity} />
+              quantity={item.quantity}
+              />
           ))}
         </div>}
     </>
