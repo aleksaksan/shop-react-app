@@ -1,6 +1,6 @@
 import { DndContext, DragEndEvent, MouseSensor, TouchSensor, closestCenter, useSensor, useSensors } from '@dnd-kit/core';
 import { SortableContext, arrayMove, useSortable } from '@dnd-kit/sortable';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/storeHooks';
 import { Item, fetchCatalog } from '../../store/catalogSlice';
 import { ItemCard, ItemCardProps } from '../../components/ItemCard/ItemCard';
@@ -26,7 +26,7 @@ export const CatalogEditPage = () => {
     useSensor(TouchSensor, { activationConstraint: { delay: 50, tolerance: 10 } })
   );
 
-  const handleDragEnd = useCallback((event: DragEndEvent) => {
+  const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
 
     if (over && active.id !== over.id) {
@@ -38,7 +38,7 @@ export const CatalogEditPage = () => {
       });
     }
     
-  }, []);
+  };
 
   return (
     <div className={style.catalog}>
@@ -66,19 +66,20 @@ export const CatalogEditPage = () => {
 
 
 const SortableItem = (props: ItemCardProps) => {
-    const {
-      attributes,
-      listeners,
-      setNodeRef,
-      transition,
-      transform
-    } = useSortable({id: props.id});
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transition,
+    transform,
+    isDragging
+  } = useSortable({id: props.id});
 
-    const style = {
-      zIndex: 10,
-      transform: CSS.Transform.toString(transform),
-      transition,
-    }
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    zIndex: isDragging ? 10 : 1
+  };
 
   return (
       <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
