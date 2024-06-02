@@ -5,7 +5,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import './SwiperStyles.scss';
-import { Navigation, Pagination } from 'swiper/modules';
+import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 
 
 const slidesMock = [
@@ -25,12 +25,20 @@ export const ProductPage = () => {
       <Swiper
         grabCursor={true}
         navigation={true}
+        loop={true}
         pagination={{
           clickable: true,
         }}
-        modules={[Navigation, Pagination]}
+        autoplay={{
+          delay: 5000,
+          disableOnInteraction: false,
+        }}
+        modules={[Navigation, Pagination, Autoplay]}
       >
-        {slides.map((item) => (<SwiperSlide key={item.id}>{<img src={item.src} alt={''}/>}</SwiperSlide>))}
+        {slides.map((item) => (
+          <SwiperSlide key={item.id}>
+            {<img src={item.src} alt={''}/>}
+          </SwiperSlide>))}
       </Swiper>
     </>
   );

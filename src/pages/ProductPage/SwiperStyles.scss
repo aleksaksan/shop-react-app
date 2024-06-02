@@ -1,4 +1,51 @@
+@import '../../styles/common';
+
 .swiper-slide {
   background-position: center;
   background-size: cover;
+}
+
+.swiper-button-prev, .swiper-button-next {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  background-color: $common-black;
+  bottom: 18px;
+  top: auto;
+}
+
+.swiper-button-prev{
+  left: 302px;
+
+  &:active {
+    background-color: $primary-blue;
+  }
+  
+  &::after {
+    font-size: 0;
+    border: 10px solid transparent;
+    border-right: 17px solid $common-white;
+    position: absolute;
+    left: 8px;
+  }
+}
+
+.swiper-button-next {
+  right: 302px;
+
+  &:active {
+    background-color: $primary-blue;
+  }
+
+  &::after {
+    font-size: 0;
+    position: absolute;
+    border: 10px solid transparent;
+    border-left: 17px solid #fff;
+    right: 6px;
+  }
+}
+
+.swiper-pagination {
+  bottom: -14px;
 }
