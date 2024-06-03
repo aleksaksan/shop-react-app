@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import { ItemCard } from '../../components/ItemCard/ItemCard';
-import styles from './CatalogPage.module.scss';
 import { useAppDispatch, useAppSelector } from '../../hooks/storeHooks';
 import { fetchCatalog } from '../../store/catalogSlice';
 
@@ -28,11 +27,11 @@ export const CatalogPage = () => {
   }, [dispatch, list.length]);
 
   return (
-    <>
+    <div className="main">
       {isLoading && 'Loading...'}
       {error ?
         error :
-        <div className={styles.catalog}>
+        <div className='main'>
           {list.map(item => (
             <ItemCard
               id={item.id}
@@ -46,6 +45,6 @@ export const CatalogPage = () => {
               />
           ))}
         </div>}
-    </>
+    </div>
   );
 };

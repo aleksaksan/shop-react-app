@@ -5,7 +5,6 @@ import { useAppDispatch, useAppSelector } from '../../hooks/storeHooks';
 import { Item, fetchCatalog } from '../../store/catalogSlice';
 import { ItemCard, ItemCardProps } from '../../components/ItemCard/ItemCard';
 import { CSS } from '@dnd-kit/utilities';
-import style from '../CatalogPage/CatalogPage.module.scss';
 
 export const CatalogEditPage = () => {
   const dispatch = useAppDispatch();
@@ -41,7 +40,7 @@ export const CatalogEditPage = () => {
   };
 
   return (
-    <div className={style.catalog}>
+    <div className="main">
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}

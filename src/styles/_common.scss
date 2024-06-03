@@ -6,6 +6,14 @@
   box-sizing: border-box;
 }
 
+body {
+	min-height: 100vh;
+
+	&>div {
+		min-height: inherit;
+	}
+}
+
 $Stolzl: 'Stolzl normal';
 $Stolzl700: 'Stolzl bold';
 $Stolzl300: 'Stolzl light';

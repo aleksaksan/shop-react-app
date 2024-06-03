@@ -30,7 +30,7 @@ export const ProductPage = () => {
   
 
   return (
-    <>
+    <div className="main">
       <Button onClick={()=>navigate(-1)} >To Catalog</Button>
       <h1 className={style.title}>КАТУАБА</h1>
       <Swiper
@@ -52,6 +52,6 @@ export const ProductPage = () => {
           </SwiperSlide>))}
       </Swiper>
       <ItemsButtonsContainer itemId={id!.toString()} quantity={item?.quantity} />
-    </>
+    </div>
   );
 };
