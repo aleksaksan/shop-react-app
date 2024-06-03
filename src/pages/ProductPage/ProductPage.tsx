@@ -7,8 +7,9 @@ import 'swiper/css/pagination';
 import './SwiperStyles.scss';
 import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 import { ItemsButtonsContainer } from '../../components/ItemCard/ItemCard';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useAppSelector } from '../../hooks/storeHooks';
+import { Button } from '../../components/Button/Button';
 
 
 const slidesMock = [
@@ -21,6 +22,7 @@ const slidesMock = [
 export const ProductPage = () => {
   const [slides] = useState(slidesMock);
   const { id } = useParams();
+  const navigate = useNavigate();
   
   const { list } = useAppSelector(state => state.catalog);
   // const { isLoading, list, error } = useAppSelector(state => state.catalog);
@@ -29,6 +31,7 @@ export const ProductPage = () => {
 
   return (
     <>
+      <Button onClick={()=>navigate(-1)} >To Catalog</Button>
       <h1 className={style.title}>КАТУАБА</h1>
       <Swiper
         grabCursor={true}

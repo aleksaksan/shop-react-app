@@ -22,8 +22,10 @@ export const CatalogPage = () => {
   const { isLoading, list, error } = useAppSelector(state => state.catalog);
 
   useEffect(() => {
-    dispatch(fetchCatalog());
-  }, [dispatch]);
+    if (!list.length) {
+      dispatch(fetchCatalog());
+    }
+  }, [dispatch, list.length]);
 
   return (
     <>
