@@ -15,27 +15,11 @@ export type ItemCardProps = {
 };
 
 export const ItemCard = (props: ItemCardProps) => {
-  const dispatch = useAppDispatch();
-
-  const increment = (id: string) => {
-    dispatch(add(id))
-  };
-  const decrement = (id: string) => {
-    dispatch(remove(id))
-  };
 
   return (
     <div className={styles.card}>
       <ItemLink {...props}/>
-      { props.quantity ?
-      <div className={styles.amount_container}>
-        <Button onClick={() => decrement(props.id)}>-</Button>
-        <div>{props.quantity}</div>
-        <Button onClick={() => increment(props.id)}>+</Button>
-      </div>
-      :
-      <Button onClick={() => increment(props.id)}>В КОРЗИНУ</Button>
-      }
+      <ItemsButtonsContainer itemId={props.id} quantity={props.quantity}/>
     </div>
   );
 };
@@ -53,4 +37,34 @@ export const ItemLink = (props: ItemCardProps) => {
       <p>{props.description}</p>
     </Link>
   )
+};
+
+export type ItemsButtonsContainerProps = {
+  itemId: string,
+  quantity?: number,
 }
+
+export const ItemsButtonsContainer = (props: ItemsButtonsContainerProps) => {
+  const dispatch = useAppDispatch();
+
+  const increment = (id: string) => {
+    dispatch(add(id))
+  };
+  const decrement = (id: string) => {
+    dispatch(remove(id))
+  };
+
+  return (
+  <>
+    { props.quantity ?
+    <div className={styles.amount_container}>
+      <Button onClick={() => decrement(props.itemId)}>-</Button>
+      <div>{props.quantity}</div>
+      <Button onClick={() => increment(props.itemId)}>+</Button>
+    </div>
+    :
+    <Button onClick={() => increment(props.itemId)}>В КОРЗИНУ</Button>
+    }
+  </>
+  )
+};

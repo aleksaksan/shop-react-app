@@ -6,6 +6,9 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import './SwiperStyles.scss';
 import { Autoplay, Navigation, Pagination } from 'swiper/modules';
+import { ItemsButtonsContainer } from '../../components/ItemCard/ItemCard';
+import { useParams } from 'react-router-dom';
+import { useAppSelector } from '../../hooks/storeHooks';
 
 
 const slidesMock = [
@@ -17,7 +20,12 @@ const slidesMock = [
 
 export const ProductPage = () => {
   const [slides] = useState(slidesMock);
-
+  const { id } = useParams();
+  
+  const { list } = useAppSelector(state => state.catalog);
+  // const { isLoading, list, error } = useAppSelector(state => state.catalog);
+  const item = list.find((item) => item.id === id!.toString());
+  
 
   return (
     <>
@@ -40,6 +48,7 @@ export const ProductPage = () => {
             {<img src={item.src} alt={''}/>}
           </SwiperSlide>))}
       </Swiper>
+      <ItemsButtonsContainer itemId={id!.toString()} quantity={item?.quantity} />
     </>
   );
 };

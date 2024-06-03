@@ -19,7 +19,7 @@ import { fetchCatalog } from '../../store/catalogSlice';
 
 export const CatalogPage = () => {
   const dispatch = useAppDispatch();
-  const { isLoading, list, error } = useAppSelector(state => state.catalog)
+  const { isLoading, list, error } = useAppSelector(state => state.catalog);
 
   useEffect(() => {
     dispatch(fetchCatalog());
