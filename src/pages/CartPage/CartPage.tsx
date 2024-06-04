@@ -22,11 +22,14 @@ export const CartPage = () => {
     tg.MainButton.setParams({
       text: 'Сделать заказ'
     });
+    tg.MainButton.show();
   }, []);
 
   useEffect(() => {
     if (items.length) {
-      tg.MainButton.show();
+      tg.MainButton.enable();
+    } else {
+      tg.MainButton.disable();
     }
   }, [items]);
 
