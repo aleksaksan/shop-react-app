@@ -6,6 +6,7 @@ export const Header = () => {
     <div className={styles.header}>
       hello there!
       <Button linkTo='/cart'>В КОРЗИНУ</Button>
+      <Button linkTo='/cart'>В КАТАЛОГ</Button>
     </div>
   );
 };
