@@ -5,7 +5,7 @@ import { Item } from '../../store/catalogSlice';
 import { Link } from 'react-router-dom';
 import { ItemsButtonsContainer } from '../../components/ItemCard/ItemCard';
 import { Button } from '../../components/Button/Button';
-import { useTelegram } from '../../hooks/useTelegram';
+import { useTelegram } from '../../hooks/uaeTelegram';
 
 export const CartPage = () => {
   const { list } = useAppSelector(state => state.catalog);
