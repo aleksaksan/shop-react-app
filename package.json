@@ -21,7 +21,8 @@
     "react-quill": "^2.0.0",
     "react-redux": "^9.1.1",
     "react-router-dom": "^6.22.3",
-    "swiper": "^11.1.4"
+    "swiper": "^11.1.4",
+    "json-server": "^1.0.0-alpha.23"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",
