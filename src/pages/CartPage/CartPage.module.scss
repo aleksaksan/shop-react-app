@@ -1,0 +1,29 @@
+.cart {
+  display: flex;
+  flex-direction: column;
+}
+
+.item {
+  display: flex;
+
+  img {
+    display: block;
+    width: 100px;
+    height: 100px;
+  }
+}
+
+.wrpapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.price {
+
+}
+
+.footer {
+  max-width: 400px;
+  margin: 0 auto;
+  width: 400px;
+}

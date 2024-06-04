@@ -14,6 +14,12 @@ body {
 	}
 }
 
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 $Stolzl: 'Stolzl normal';
 $Stolzl700: 'Stolzl bold';
 $Stolzl300: 'Stolzl light';

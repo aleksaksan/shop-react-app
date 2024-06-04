@@ -16,7 +16,6 @@ export const AddCardPage = () => {
             ['bold', 'italic']
           ]}
         }
-        
       />
     </div>
   );

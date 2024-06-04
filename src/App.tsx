@@ -6,6 +6,7 @@ import { GreetingPage } from './pages/GreetingPage/GreetingPage';
 import { CatalogEditPage } from './pages/CatalogEditPage/CatalogEditPage';
 import { ProductPage } from './pages/ProductPage/ProductPage';
 import { AddCardPage } from './pages/EditCardPage/AddCardPage';
+import { CartPage } from './pages/CartPage/CartPage';
 
 function App() {
 
@@ -19,8 +20,8 @@ function App() {
           <Route path={'catalog/edit'} element={<CatalogEditPage />} />
           <Route path={'catalog/:id'} element={<ProductPage />} />
           <Route path={'add-card'} element={<AddCardPage />} />
-          {/* <Route path={'form'} element={<Form />} />
-          <Route path={'cart'} element={<CartPage />} /> */}
+          <Route path={'cart'} element={<CartPage />} /> 
+          {/* <Route path={'form'} element={<Form />} />*/}
         </Routes>
         
       </div>
