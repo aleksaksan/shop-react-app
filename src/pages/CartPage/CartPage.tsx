@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import style from './CartPage.module.scss';
 import { useAppSelector } from '../../hooks/storeHooks';
 import { Item } from '../../store/catalogSlice';
