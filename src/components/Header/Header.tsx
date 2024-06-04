@@ -5,8 +5,8 @@ export const Header = () => {
   return (
     <div className={styles.header}>
       hello there!
-      <Button linkTo='/cart'>В КОРЗИНУ</Button>
-      <Button linkTo='/catalog'>В КАТАЛОГ</Button>
+      <Button linkTo='/cart'>КОРЗИНА</Button>
+      <Button linkTo='/catalog'>КАТАЛОГ</Button>
     </div>
   );
 };
