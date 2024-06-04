@@ -5,15 +5,30 @@ import { Item } from '../../store/catalogSlice';
 import { Link } from 'react-router-dom';
 import { ItemsButtonsContainer } from '../../components/ItemCard/ItemCard';
 import { Button } from '../../components/Button/Button';
+import { useTelegram } from '../../hooks/useTelegram';
 
 export const CartPage = () => {
   const { list } = useAppSelector(state => state.catalog);
   const [items, setItems ] = useState<Item[]>([]);
+  const { tg } = useTelegram();
 
   useEffect(() => {
     const itemsToDisplay = list.filter((item) => item.quantity);
     setItems(itemsToDisplay);
+    
   }, [list]);
+
+  useEffect(() => {
+    tg.MainButton.setParams({
+      text: 'Сделать заказ'
+    });
+  }, []);
+
+  useEffect(() => {
+    if (items.length) {
+      tg.MainButton.show();
+    }
+  }, [items]);
 
   const cost = items.reduce((acc, item) => item.price * item.quantity + acc, 0)
 
