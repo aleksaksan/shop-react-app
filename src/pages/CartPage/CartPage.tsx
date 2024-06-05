@@ -14,7 +14,7 @@ export const CartPage = () => {
 
   const onSendData = useCallback(() => {
     const data = { ...items };
-    console.log(data);
+    
     tg.sendData(JSON.stringify(data));
   }, [items, tg]);
 
@@ -22,7 +22,7 @@ export const CartPage = () => {
     tg.onEvent('mainButtonClicked', onSendData);
 
     return () => {
-      tg.onEvent('mainButtonClicked', onSendData);
+      tg.offEvent('mainButtonClicked', onSendData);
     }
   }, [tg, onSendData]);
 
