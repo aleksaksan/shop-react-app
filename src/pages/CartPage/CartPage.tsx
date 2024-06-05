@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import style from './CartPage.module.scss';
 import { useAppSelector } from '../../hooks/storeHooks';
 import { Item } from '../../store/catalogSlice';
@@ -11,6 +11,20 @@ export const CartPage = () => {
   const { list } = useAppSelector(state => state.catalog);
   const [items, setItems ] = useState<Item[]>([]);
   const { tg } = useTelegram();
+
+  const onSendData = useCallback(() => {
+    const data = { ...items };
+
+    tg.sendData(JSON.stringify(data));
+  }, [])
+
+  useEffect(() => {
+    tg.onEvent('mainButtonClicked', onSendData);
+
+    return () => {
+      tg.onEvent('mainButtonClicked', onSendData);
+    }
+  }, [])
 
   useEffect(() => {
     const itemsToDisplay = list.filter((item) => item.quantity);
@@ -65,7 +79,6 @@ export const CartPage = () => {
           <h4>Сумма</h4>
           <h4>{cost}</h4>
         </div>
-        <Button onClick={()=>{}}>Сделать заказ</Button>
       </footer>
     </>
   );
