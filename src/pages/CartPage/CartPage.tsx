@@ -13,7 +13,6 @@ export const CartPage = () => {
 
   const onSendData = useCallback(() => {
     const data = [...items];
-    console.log('data', data)
     tg.sendData(JSON.stringify(data));
   }, [items, tg]);
 
