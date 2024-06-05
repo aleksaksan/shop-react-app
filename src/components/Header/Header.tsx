@@ -8,7 +8,7 @@ export const Header = () => {
   return (
     <div className={styles.header}>
       <span className={styles.username}>
-          {user?.username}
+          hi, {user?.username}!
       </span>
       <Button linkTo='/cart'>КОРЗИНА</Button>
       <Button linkTo='/catalog'>КАТАЛОГ</Button>
