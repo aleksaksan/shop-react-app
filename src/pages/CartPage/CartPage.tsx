@@ -16,7 +16,7 @@ export const CartPage = () => {
     const data = { ...items };
 
     tg.sendData(JSON.stringify(data));
-  }, [])
+  }, [items, tg]);
 
   useEffect(() => {
     tg.onEvent('mainButtonClicked', onSendData);
@@ -24,7 +24,7 @@ export const CartPage = () => {
     return () => {
       tg.onEvent('mainButtonClicked', onSendData);
     }
-  }, [])
+  }, [tg, onSendData]);
 
   useEffect(() => {
     const itemsToDisplay = list.filter((item) => item.quantity);
