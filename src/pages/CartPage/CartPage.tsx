@@ -19,6 +19,7 @@ export const CartPage = () => {
   }, [items, tg]);
 
   useEffect(() => {
+    console.log(`mainButtonClicked`)
     tg.onEvent('mainButtonClicked', onSendData);
     
     return () => {
@@ -40,7 +41,7 @@ export const CartPage = () => {
       tg.MainButton.disable();
     }
   }, [items.length, tg.MainButton]);
-  
+
 
   useEffect(() => {
     const itemsToDisplay = list.filter((item) => item.quantity);
