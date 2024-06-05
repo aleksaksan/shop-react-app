@@ -16,7 +16,6 @@ export const CartPage = () => {
     const data = { ...items };
     
     tg.sendData(JSON.stringify(data));
-    
   }, [items, tg]);
 
   useEffect(() => {
