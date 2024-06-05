@@ -20,17 +20,11 @@ export const CartPage = () => {
 
   useEffect(() => {
     tg.onEvent('mainButtonClicked', onSendData);
-
-    return () => {
-      tg.offEvent('mainButtonClicked', onSendData);
-    }
-  }, [tg, onSendData]);
-
-  useEffect(() => {
-    const itemsToDisplay = list.filter((item) => item.quantity);
-    setItems(itemsToDisplay);
     
-  }, [list]);
+    return () => {
+        tg.offEvent('mainButtonClicked', onSendData);
+    }
+  }, [onSendData, tg]);
 
   useEffect(() => {
     tg.MainButton.setParams({
@@ -46,6 +40,13 @@ export const CartPage = () => {
       tg.MainButton.disable();
     }
   }, [items.length, tg.MainButton]);
+  
+
+  useEffect(() => {
+    const itemsToDisplay = list.filter((item) => item.quantity);
+    setItems(itemsToDisplay);
+    
+  }, [list]);
 
   const cost = items.reduce((acc, item) => item.price * item.quantity + acc, 0)
 
