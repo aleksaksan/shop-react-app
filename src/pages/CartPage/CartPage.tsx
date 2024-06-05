@@ -19,7 +19,6 @@ export const CartPage = () => {
   }, [items, tg]);
 
   useEffect(() => {
-    console.log(`mainButtonClicked`)
     tg.onEvent('mainButtonClicked', onSendData);
     
     return () => {
@@ -28,17 +27,16 @@ export const CartPage = () => {
   }, [onSendData, tg]);
 
   useEffect(() => {
-    tg.MainButton.setParams({
-      text: 'Сделать заказ'
-    });
-    tg.MainButton.show();
-  }, [tg.MainButton]);
-
-  useEffect(() => {
     if (items.length) {
-      tg.MainButton.enable();
+      tg.MainButton.setParams({
+        text: 'Подтвердить'
+      });
+      tg.MainButton.show();
     } else {
-      tg.MainButton.disable();
+      tg.MainButton.hide();
+    }
+    return () => {
+      tg.MainButton.hide();
     }
   }, [items.length, tg.MainButton]);
 
