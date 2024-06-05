@@ -23,7 +23,7 @@ export const CartPage = () => {
       text: 'Сделать заказ'
     });
     tg.MainButton.show();
-  }, []);
+  }, [tg.MainButton]);
 
   useEffect(() => {
     if (items.length) {
@@ -31,7 +31,7 @@ export const CartPage = () => {
     } else {
       tg.MainButton.disable();
     }
-  }, [items]);
+  }, [items.length, tg.MainButton]);
 
   const cost = items.reduce((acc, item) => item.price * item.quantity + acc, 0)
 
