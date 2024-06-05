@@ -24,10 +24,9 @@ export const ItemCard = (props: ItemCardProps) => {
   );
 };
 
-export const ItemLink = (props: ItemCardProps) => {
-
+const ItemInfo = (props: ItemCardProps) => {
   return (
-    <Link to={props.id} >
+    <>
       <div className={styles.image_wrapper}>
         <img src={props.src} alt={props.title} />
         <div className={styles.weight}>{props.weight} г</div>
@@ -35,6 +34,24 @@ export const ItemLink = (props: ItemCardProps) => {
       </div>
       <h2>{props.title}</h2>
       <p>{props.description}</p>
+    </>
+  )
+};
+
+export const ItemToEdit = (props: ItemCardProps) => {
+  return (
+    <div className={styles.card}>
+      <ItemInfo {...props}/>
+      <Button linkTo={props.id}>Редактировать</Button>
+    </div>
+  )
+}
+
+export const ItemLink = (props: ItemCardProps) => {
+
+  return (
+    <Link to={props.id} >
+      <ItemInfo {...props} />
     </Link>
   )
 };

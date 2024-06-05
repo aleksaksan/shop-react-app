@@ -3,7 +3,7 @@ import { SortableContext, arrayMove, useSortable } from '@dnd-kit/sortable';
 import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/storeHooks';
 import { Item, fetchCatalog } from '../../store/catalogSlice';
-import { ItemCard, ItemCardProps } from '../../components/ItemCard/ItemCard';
+import { ItemCardProps, ItemToEdit } from '../../components/ItemCard/ItemCard';
 import { CSS } from '@dnd-kit/utilities';
 
 export const CatalogEditPage = () => {
@@ -36,7 +36,7 @@ export const CatalogEditPage = () => {
         return arrayMove(items, oldIndex, newIndex);
       });
     }
-    
+    console.log(items)
   };
 
   return (
@@ -82,7 +82,7 @@ const SortableItem = (props: ItemCardProps) => {
 
   return (
       <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
-          <ItemCard {...props}/>
+          <ItemToEdit {...props}/>
       </div>
   )
 }

@@ -10,6 +10,8 @@ export const Header = () => {
       <span className={styles.username}>
           hi, {user?.username}!
       </span>
+      <Button linkTo='catalog/edit'>Редактировать</Button>
+      <Button linkTo='/cart'>Добавить товар</Button>
       <Button linkTo='/cart'>КОРЗИНА</Button>
       <Button linkTo='/catalog'>КАТАЛОГ</Button>
     </div>
