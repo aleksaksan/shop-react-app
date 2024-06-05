@@ -4,7 +4,6 @@ import { useAppSelector } from '../../hooks/storeHooks';
 import { Item } from '../../store/catalogSlice';
 import { Link } from 'react-router-dom';
 import { ItemsButtonsContainer } from '../../components/ItemCard/ItemCard';
-import { Button } from '../../components/Button/Button';
 import { useTelegram } from '../../hooks/uaeTelegram';
 
 export const CartPage = () => {
@@ -14,7 +13,7 @@ export const CartPage = () => {
 
   const onSendData = useCallback(() => {
     const data = { ...items };
-    
+    console.log('data', data)
     tg.sendData(JSON.stringify(data));
   }, [items, tg]);
 
@@ -69,7 +68,6 @@ export const CartPage = () => {
           )) :
           <div className={style.empty}>
             <h4>Корзина пуста</h4>
-            <Button linkTo='/catalog'>Перейти в каталог</Button>
           </div>
           }
         </div>
