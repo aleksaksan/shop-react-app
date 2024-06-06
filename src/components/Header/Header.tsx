@@ -12,12 +12,12 @@ export const Header = () => {
       </span>
       <nav className={styles.wrapper}>
         <div>
-          <Button linkTo='/cart'>КОРЗИНА</Button>
-          <Button linkTo='/catalog'>КАТАЛОГ</Button>
-        </div>
-        <div>
           <Button linkTo='catalog/edit'>Редактировать</Button>
           <Button linkTo='/cart'>Добавить товар</Button>
+        </div>
+        <div>
+          <Button linkTo='/cart'>КОРЗИНА</Button>
+          <Button linkTo='/catalog'>КАТАЛОГ</Button>
         </div>
       </nav>
     </div>

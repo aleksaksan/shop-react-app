@@ -30,24 +30,28 @@ export const ProductPage = () => {
   return (
     <div className="main">
       <h1 className={style.title}>КАТУАБА</h1>
-      <Swiper
-        grabCursor={true}
-        navigation={true}
-        loop={true}
-        pagination={{
-          clickable: true,
-        }}
-        autoplay={{
-          delay: 5000,
-          disableOnInteraction: false,
-        }}
-        modules={[Navigation, Pagination, Autoplay]}
-      >
-        {slides.map((item) => (
-          <SwiperSlide key={item.id}>
-            {<img src={item.src} alt={''}/>}
-          </SwiperSlide>))}
-      </Swiper>
+      <div className={style.wrapper}>
+        <Swiper
+          className={style.swiper}
+          grabCursor={true}
+          navigation={true}
+          loop={true}
+          pagination={{
+            clickable: true,
+          }}
+          autoplay={{
+            delay: 5000,
+            disableOnInteraction: false,
+          }}
+          modules={[Navigation, Pagination, Autoplay]}
+        >
+          {slides.map((item) => (
+            <SwiperSlide key={item.id}>
+              {<img src={item.src} alt={''}/>}
+            </SwiperSlide>))}
+        </Swiper>
+      </div>
+
       <ItemsButtonsContainer itemId={id!.toString()} quantity={item?.quantity} />
 
       {/* TODO */}

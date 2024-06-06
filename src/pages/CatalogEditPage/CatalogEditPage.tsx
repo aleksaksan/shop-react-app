@@ -9,7 +9,7 @@ import { CSS } from '@dnd-kit/utilities';
 export const CatalogEditPage = () => {
   const dispatch = useAppDispatch();
   const { list } = useAppSelector(state => state.catalog);
-  const [items, setItems ] = useState<Item[]>([]);
+  const [ items, setItems ] = useState<Item[]>([]);
   // const { isLoading, list, error } = useAppSelector(state => state.catalog)
 
   useEffect(() => {

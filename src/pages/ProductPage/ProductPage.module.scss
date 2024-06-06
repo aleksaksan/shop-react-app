@@ -1,4 +1,19 @@
+@import '../../styles/common';
+
 .bold {
+  font-family: $Stolzl700;
   white-space: break-spaces;
   width: 100%;
+}
+
+.swiper {
+  width: calc(100vw - 24px);
+}
+
+.wrapper {
+  width: calc(100vw - 24px);
+  height: calc(100vw - 24px);
+  border: solid 1px $common-black;
+  border-radius: 12px;
+  overflow: hidden;
 }

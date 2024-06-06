@@ -74,7 +74,7 @@ export const CartPage = () => {
       <footer className={style.footer}>
         <div className="flex-between">
           <h4>Сумма</h4>
-          <h4>{cost}</h4>
+          <h4>{cost} ₽</h4>
         </div>
       </footer>
     </>
