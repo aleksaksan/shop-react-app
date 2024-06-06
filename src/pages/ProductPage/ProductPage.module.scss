@@ -16,4 +16,37 @@
   border: solid 1px $common-black;
   border-radius: 12px;
   overflow: hidden;
+  position: relative;
+}
+
+.weight {
+  background-color: $common-black;
+  border-radius: 4px;
+  padding: 3px 6px;
+  font-family: $Stolzl;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  color: $common-white;
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  z-index: 11;
+}
+
+.price {
+  background-color: $common-black;
+  border-radius: 4px;
+  padding: 3px 6px;
+  font-family: $Stolzl;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  color: $common-white;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  z-index: 11;
+}
+
+.buttons {
+  width: 100%;
 }

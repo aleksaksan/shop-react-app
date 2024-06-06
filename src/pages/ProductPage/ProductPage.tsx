@@ -31,6 +31,10 @@ export const ProductPage = () => {
     <div className="main">
       <h1 className={style.title}>КАТУАБА</h1>
       <div className={style.wrapper}>
+        <div className='flex-between'>
+          <div className={style.weight}>50 г</div>
+          <div className={style.price}>800 ₽</div>
+        </div>
         <Swiper
           className={style.swiper}
           grabCursor={true}
@@ -51,8 +55,9 @@ export const ProductPage = () => {
             </SwiperSlide>))}
         </Swiper>
       </div>
-
-      <ItemsButtonsContainer itemId={id!.toString()} quantity={item?.quantity} />
+      <div className={style.buttons}>
+        <ItemsButtonsContainer itemId={id!.toString()} quantity={item?.quantity} />
+      </div>
 
       {/* TODO */}
       <div className="description">
