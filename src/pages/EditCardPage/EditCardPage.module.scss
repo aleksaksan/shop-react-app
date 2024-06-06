@@ -10,6 +10,7 @@
 .description {
   width: 100%;
   display: block;
+  max-width: calc(100vw - 24px);
 }
 
 .title {
