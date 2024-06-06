@@ -10,13 +10,13 @@
   height: 28px;
   border-radius: 4px;
   background-color: $common-black;
-  bottom: 18px;
+  bottom: 38px;
   top: auto;
   
 }
 
 .swiper-button-prev{
-  left: 140px;
+  left: 130px;
 
   &:active {
     background-color: $primary-blue;
@@ -32,7 +32,7 @@
 }
 
 .swiper-button-next {
-  right: 140px;
+  right: 130px;
 
   &:active {
     background-color: $primary-blue;
@@ -48,7 +48,7 @@
 }
 
 .swiper-pagination {
-  bottom: -3px !important;
+  bottom: 16px !important;
 }
 
 .swiper-pagination-bullet {
