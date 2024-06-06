@@ -1,8 +1,7 @@
 @import '../../styles/common';
 
 .wrapper {
-  font-family: $Stolzl;
-  font-weight: 300;
+  font-family: $Stolzl300;
   font-size: 1rem;
   line-height: 20px;
   text-wrap: wrap;
@@ -13,6 +12,14 @@
   align-items: center;
   width: 100%;
   
+  &>:last-child {
+    margin: 20px 0;
+  }
+
+  h4 {
+    font-family: $Stolzl700;
+    letter-spacing: 0.54em;
+  }
 }
 
 .sides {
@@ -21,6 +28,7 @@
   width: 100%;
   margin-top: 34px;
   margin-bottom: 18px;
+  align-items: start;
 
   &>p {
     width: 50%;
@@ -34,6 +42,12 @@
 }
 
 .regular {
-  font-weight: 300;
-  margin: 36px 0;
+  font-family: $Stolzl;
+  margin: 24px 0;
+  
+}
+
+.lightning {
+  font-family: 'Dited';
+  margin: 10px 0;
 }

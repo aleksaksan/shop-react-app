@@ -6,9 +6,9 @@ export const GreetingPage = () => {
     <div className="main">
       <div className={style.wrapper}>
         <h4>ПРИВЕТ !</h4>
-        <div>⚡ ⚡ ⚡ ⚡</div>
+        <div className={style.lightning}>⚡ ⚡ ⚡ ⚡</div>
         <div>здесь расположился</div>
-        <div>магазин4ик - smartshop</div>
+        <h3 className={style.regular}>магазин4ик - smartshop</h3>
         <div className={style.sides}>
           <p>мы продаём{<br/>}
             полезные{<br/>}

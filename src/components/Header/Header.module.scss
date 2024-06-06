@@ -10,3 +10,16 @@
   font-style: italic;
   margin-bottom: 10px;
 }
+
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  
+  &>div {
+    width: 100%;
+    &>a:first-child{
+      margin-bottom: 10px;
+    }
+  }
+}
