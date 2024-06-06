@@ -3,7 +3,8 @@
 .card {
   width: 170px;
 
-  &>a {
+  &>a,
+  &>.wrapper {
     text-decoration: none;
     color: $common-black;
 
