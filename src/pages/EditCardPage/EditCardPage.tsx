@@ -4,25 +4,72 @@ import 'react-quill/dist/quill.snow.css';
 import itemStyles from '../ProductPage/ProductPage.module.scss';
 import { Navigation, Pagination } from 'swiper/modules';
 import { SwiperSlide, Swiper } from 'swiper/react';
-import { slidesMock } from '../ProductPage/ProductPage';
-// import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import style from './EditCardPage.module.scss';
 import { Button } from '../../components/Button/Button';
+import { ItemCardProps } from '../../components/ItemCard/ItemCard';
+import { Img } from '../../Svg/Img';
+import { useForm } from 'react-hook-form';
+
+
+type ItemEdit = Omit<ItemCardProps, 'quantity' | 'src'> & Record<'srcs', string[]> & Record<'fullDescription', string>;
 
 export const EditCardPage = () => {
-  const [value, setValue] = useState('');
-  const [slides] = useState(slidesMock);
-  // const { id } = useParams();
+  const { id } = useParams();
+  const [item] = useState<ItemEdit>();
+  // const [item, setItem] = useState<ItemEdit>();
+  const [description, setDescription] = useState(item?.description);
+  const [fullDescription, setFullDescription] = useState(item?.fullDescription);
+  // const [slides] = useState(slidesMock);
+  const {
+    register,
+    handleSubmit,
+    formState: { isValid },
+  } = useForm();
+
+  const onSubmit = handleSubmit((data) => {
+    console.log(data)
+    const descriptionTemp = {
+      description,
+      fullDescription
+    }
+    const dataToSend = {
+      ...item,
+      ...data,
+      ...descriptionTemp,
+      id
+    }
+    console.log(dataToSend);
+  });
 
   return (
-    <div className="main">
+    <form className="main" onSubmit={onSubmit}>
       <>
-        <h1 className={itemStyles.title}>КАТУАБА</h1>
+        <input
+          className={style.title} 
+          type='text'
+          value={item?.title}
+          placeholder='Название товара'
+          {...register('title', {required: true})}
+        />
         <div className={itemStyles.wrapper}>
           <div className='flex-between'>
-            <div className={itemStyles.weight}>50 г</div>
-            <div className={itemStyles.price}>800 ₽</div>
+            <input
+              className={style.weight}
+              type='text'
+              value={item?.weight}
+              placeholder='Вес г'
+              {...register('weight', {required: true})}
+            />
+            <input
+              className={style.price}
+              type='text'
+              value={item?.price}
+              placeholder='Цена  ₽'
+              {...register('price', {required: true})}
+            />
           </div>
+          {item?.srcs.length ?
           <Swiper
             className={itemStyles.swiper}
             grabCursor={true}
@@ -32,27 +79,49 @@ export const EditCardPage = () => {
               clickable: true,
             }}
             modules={[Navigation, Pagination]}
-          >
-            {slides.map((item) => (
-              <SwiperSlide key={item.id}>
-                {<img src={item.src} alt={''}/>}
-              </SwiperSlide>))}
-          </Swiper>
+            >
+            { item?.srcs.map((img) => (
+              <SwiperSlide key={img}>
+                {<img src={img} alt={''}/>}
+              </SwiperSlide>
+            
+            ))}
+          </Swiper>: 
+          <Img />
+          }
         </div>
       </>
-      <ReactQuill
-        className={style.quill}
-        theme="snow"
-        value={value}
-        onChange={setValue}
-        modules = {{
-          toolbar: [
-            ['bold', 'italic']
-          ]}
-        }
-      />
-
-      <Button>Сохранить</Button>
-    </div>
+      <label className={style.description}>
+        Краткое описание
+      </label>
+        <ReactQuill
+          className={style.quill}
+          theme="snow"
+          value={description}
+          onChange={setDescription}
+          modules = {{
+            toolbar: [
+              ['bold', 'italic']
+            ]}
+          }
+        />
+      <label className={style.description}>
+        Полное описание
+      </label>
+        <ReactQuill
+          className={style.quill}
+          theme="snow"
+          value={fullDescription}
+          onChange={setFullDescription}
+          modules = {{
+            toolbar: [
+              ['bold', 'italic']
+            ]}
+          }
+        />
+        
+      {!isValid && <span className={style.error}>Не все поля заполнены!</span>}
+      <Button disabled={!isValid}>Сохранить</Button>
+    </form>
   );
 };

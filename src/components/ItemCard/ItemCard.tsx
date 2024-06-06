@@ -14,6 +14,7 @@ export type ItemCardProps = {
   quantity?: number,
 };
 
+
 export const ItemCard = (props: ItemCardProps) => {
 
   return (

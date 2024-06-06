@@ -22,5 +22,12 @@
 
   &:active {
     background-color: $primary-blue;
+    &:disabled {
+    background-color: #ccc;
+    }
+  }
+
+  &:disabled {
+    background-color: #ccc;
   }
 }
