@@ -5,7 +5,7 @@ import { CatalogPage } from './pages/CatalogPage/CatalogPage';
 import { GreetingPage } from './pages/GreetingPage/GreetingPage';
 import { CatalogEditPage } from './pages/CatalogEditPage/CatalogEditPage';
 import { ProductPage } from './pages/ProductPage/ProductPage';
-import { AddCardPage } from './pages/EditCardPage/AddCardPage';
+import { EditCardPage } from './pages/EditCardPage/EditCardPage';
 import { CartPage } from './pages/CartPage/CartPage';
 
 function App() {
@@ -19,8 +19,7 @@ function App() {
           <Route path={'catalog'} element={<CatalogPage />} />
           <Route path={'catalog/edit'} element={<CatalogEditPage />} />
           <Route path={'catalog/:id'} element={<ProductPage />} />
-          {/* <Route path={'catalog/:id/edit'} element={<ProductPage />} /> */}
-          <Route path={'add-card'} element={<AddCardPage />} />
+          <Route path={'catalog/edit/:id'} element={<EditCardPage />} />
           <Route path={'cart'} element={<CartPage />} /> 
           {/* <Route path={'form'} element={<Form />} />*/}
         </Routes>

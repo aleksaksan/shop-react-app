@@ -11,7 +11,7 @@ import { useParams } from 'react-router-dom';
 import { useAppSelector } from '../../hooks/storeHooks';
 
 
-const slidesMock = [
+export const slidesMock = [
   {id: 1, src: '/7cecfbda-35d1-48f8-9599-4a884bc158a3.jpg'},
   {id: 2, src: '/7cecfbda-35d1-48f8-9599-4a884bc158a3.jpg'},
   {id: 3, src: '/7cecfbda-35d1-48f8-9599-4a884bc158a3.jpg'},
