@@ -4,11 +4,11 @@
   min-height: 100px;
   margin-bottom: 40px;
   width: 100%;
+  max-width: calc(100vw - 24px);
 }
 
 .description {
   width: 100%;
-  max-width: calc(100vw - 24px);
   display: block;
 }
 
