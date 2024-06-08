@@ -20,6 +20,8 @@ export const EditCardPage = () => {
   // const [item, setItem] = useState<ItemEdit>();
   const [description, setDescription] = useState(item?.description);
   const [fullDescription, setFullDescription] = useState(item?.fullDescription);
+  const [imagePreviews, setImagePreviews] = useState<string[]>([]);
+  // const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
   // const [slides] = useState(slidesMock);
   const filePicker = useRef<HTMLInputElement>(null);
 
@@ -51,8 +53,18 @@ export const EditCardPage = () => {
     console.log(dataToSend);
   });
 
-  const handleChange = () => {
-
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    const images: Array<string> = [];
+    
+    if (files) {
+      for (let i = 0; i < files.length; i++) {
+        images.push(URL.createObjectURL(files[i]));
+      }
+  
+      // setSelectedFiles(files);
+      setImagePreviews(images);
+    }
   }
 
   return (
@@ -107,6 +119,16 @@ export const EditCardPage = () => {
         <input className={style.hidden} type='file' multiple accept='image/*,.png,.jpg,.jpeg,.web' onChange={handleChange} ref={filePicker}/>
         <Button onClick={handlePick}>Выбрать фото</Button>
       </>
+
+      <div className={style.container}>
+        {imagePreviews.map(file=>
+        <div className={style.preview}>
+          <img src={file} alt='new photo' />
+          <input type='button' />
+        </div>
+        )}
+      </div>
+
       <label className={style.description}>
         Краткое описание
       </label>
