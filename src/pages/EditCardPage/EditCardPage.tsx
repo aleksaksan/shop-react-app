@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import itemStyles from '../ProductPage/ProductPage.module.scss';
@@ -21,11 +21,20 @@ export const EditCardPage = () => {
   const [description, setDescription] = useState(item?.description);
   const [fullDescription, setFullDescription] = useState(item?.fullDescription);
   // const [slides] = useState(slidesMock);
+  const filePicker = useRef<HTMLInputElement>(null);
+
   const {
     register,
     handleSubmit,
     formState: { isValid },
   } = useForm();
+
+  const handlePick = () => {
+    if (filePicker.current) {
+      filePicker.current.click();
+    }
+  };
+
 
   const onSubmit = handleSubmit((data) => {
     console.log(data)
@@ -41,6 +50,10 @@ export const EditCardPage = () => {
     }
     console.log(dataToSend);
   });
+
+  const handleChange = () => {
+
+  }
 
   return (
     <form className="main" onSubmit={onSubmit}>
@@ -90,6 +103,9 @@ export const EditCardPage = () => {
           <Img />
           }
         </div>
+
+        <input className={style.hidden} type='file' multiple accept='image/*,.png,.jpg,.jpeg,.web' onChange={handleChange} ref={filePicker}/>
+        <Button onClick={handlePick}>Выбрать фото</Button>
       </>
       <label className={style.description}>
         Краткое описание

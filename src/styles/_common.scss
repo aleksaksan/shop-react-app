@@ -27,3 +27,17 @@ $Stolzl300: 'Stolzl light';
 $primary-blue: #263CFF;
 $common-white: #fff;
 $common-black: #000;
+
+.main {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.display-none {
+	display: none;
+}

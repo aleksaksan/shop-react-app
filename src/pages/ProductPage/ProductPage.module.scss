@@ -6,13 +6,13 @@
   width: 100%;
 }
 
-.swiper {
-  width: calc(100vw - 44px);
+.swiper::-webkit-scrollbar { 
+  width: 0; 
 }
 
 .wrapper {
-  width: calc(100vw - 44px);
-  height: calc(100vw - 44px);
+  width: calc(100vw - 24px);
+  height: calc(100vw - 24px);
   border: solid 1px $common-black;
   border-radius: 12px;
   overflow: hidden;
