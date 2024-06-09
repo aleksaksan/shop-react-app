@@ -1,4 +1,7 @@
 import { createSlice, PayloadAction, createAsyncThunk, Action } from '@reduxjs/toolkit';
+import axios from 'axios';
+
+const baseUrl = 'http://localhost:8000'
 
 export type Item = {
   id: string;
@@ -19,13 +22,12 @@ type CatalogState = {
 export const fetchCatalog = createAsyncThunk<Item[], undefined, {rejectValue: string}>(
     'catalog/fetchCatalog',
     async function (_, { rejectWithValue }) {
-      const response = await fetch('http://localhost:3001/catalog');
+      const response = await axios.get(`${baseUrl}/api/catalog`);
 
-      if (!response.ok) {
+      if (response.status !== 200) {
         return rejectWithValue('Server Error!');
       }
-
-      const data = await response.json();
+      const data = await response.data;
 
       return data;
     }

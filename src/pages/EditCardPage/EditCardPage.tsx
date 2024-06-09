@@ -13,6 +13,7 @@ import { useForm } from 'react-hook-form';
 import { SortableContext, arrayMove, useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { DndContext, DragEndEvent, MouseSensor, TouchSensor, useSensor, useSensors } from '@dnd-kit/core';
+import axios from 'axios';
 
 
 type ItemEdit = Omit<ItemCardProps, 'quantity' | 'src'> & Record<'srcs', string[]> & Record<'fullDescription', string>;
@@ -24,9 +25,11 @@ export const EditCardPage = () => {
   const [description, setDescription] = useState(item?.description);
   const [fullDescription, setFullDescription] = useState(item?.fullDescription);
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
-  // const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
+  const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
   // const [slides] = useState(slidesMock);
   const filePicker = useRef<HTMLInputElement>(null);
+
+  const baseURL = 'http://localhost:8000'
 
   const {
     register,
@@ -41,7 +44,7 @@ export const EditCardPage = () => {
   };
 
 
-  const onSubmit = handleSubmit((data) => {
+  const onSubmit = handleSubmit(async (data) => {
     console.log(data)
     const descriptionTemp = {
       description,
@@ -53,6 +56,44 @@ export const EditCardPage = () => {
       ...descriptionTemp,
       id
     }
+//////////////////////////////////    
+    try {
+      const uploadPromises = [];
+  
+      for (const file in selectedFiles) {
+        const formData = new FormData();
+        formData.append('file', file);
+        
+        await axios.post(`${baseURL}/api/upload`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        // const res = await fetch(`${baseURL}/api/upload`, {
+        //     method: 'POST',
+        //     body: formData,
+        //   })
+        //   const data = await res.json();
+
+          // console.log(data)
+        uploadPromises.push(axios.post(`${baseURL}/api/upload`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }));
+        console.log(uploadPromises)
+      }
+      // Promise.all(uploadPromises);
+      
+    } catch (error) {
+      console.log(error)
+    }
+/////////////////////////////
+    // const res =  await fetch(url, {
+    //   method: 'POST',
+    //   body: formData,
+    // })
+    // const data = await res.json();
     console.log(dataToSend);
   });
 
@@ -65,7 +106,7 @@ export const EditCardPage = () => {
         images.push(URL.createObjectURL(files[i]));
       }
   
-      // setSelectedFiles(files);
+      setSelectedFiles(files);
       setImagePreviews(images);
     }
   }
@@ -126,7 +167,6 @@ export const EditCardPage = () => {
         </div>
 
         <input className={style.hidden} type='file' multiple accept='image/*,.png,.jpg,.jpeg,.web' onChange={handleChange} ref={filePicker}/>
-        <Button onClick={handlePick}>Выбрать фото</Button>
       </>
 
       
