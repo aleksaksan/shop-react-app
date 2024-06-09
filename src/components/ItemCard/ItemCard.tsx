@@ -53,7 +53,7 @@ export const ItemToEdit = (props: ItemCardProps) => {
 export const ItemLink = (props: ItemCardProps) => {
 
   return (
-    <Link to={props.id} >
+    <Link to={`${props.id}`} >
       <ItemInfo {...props} />
     </Link>
   )

@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction, createAsyncThunk, Action } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const baseUrl = 'http://localhost:8000'
+export const baseUrl = 'http://localhost:8000'
 
 export type Item = {
   id: string;
