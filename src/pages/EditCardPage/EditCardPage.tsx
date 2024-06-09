@@ -12,7 +12,7 @@ import { Img } from '../../Svg/Img';
 import { useForm } from 'react-hook-form';
 import { SortableContext, arrayMove, useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { DndContext, DragEndEvent, MouseSensor, TouchSensor, closestCenter, useSensor, useSensors } from '@dnd-kit/core';
+import { DndContext, DragEndEvent, MouseSensor, TouchSensor, useSensor, useSensors } from '@dnd-kit/core';
 
 
 type ItemEdit = Omit<ItemCardProps, 'quantity' | 'src'> & Record<'srcs', string[]> & Record<'fullDescription', string>;
@@ -71,7 +71,10 @@ export const EditCardPage = () => {
   }
   const filterFilesHandler = (src: string) => {
     setImagePreviews(imagePreviews.filter(item=>item !== src))
-  }
+  };
+  const shakeHandler = (imgUrls: string[]) => {
+    setImagePreviews(imgUrls);
+  };
 
   return (
     <form className="main" onSubmit={onSubmit}>
@@ -130,7 +133,7 @@ export const EditCardPage = () => {
       <Preview srcs={imagePreviews}
         addHandler={handlePick}
         deleteHandler={filterFilesHandler}
-        shakeHandler={() => {}}
+        shakeHandler={shakeHandler}
       />
       
 
@@ -173,14 +176,15 @@ type PreviewType = {
   srcs?: string[],
   deleteHandler: (item: string) => void,
   addHandler: () => void,
-  shakeHandler: () => void,
+  shakeHandler: (imgUrls: string[]) => void,
 }
 
 const Preview = (props: PreviewType) => {
   const [ items, setItems ] = useState<string[] | undefined>(props.srcs); 
+
   useEffect(() => {
     setItems(props.srcs);
-  }, [props.srcs]);
+  }, [props]);
 
   const sensors = useSensors(
     useSensor(MouseSensor, { activationConstraint: { distance: 5 } }),
@@ -200,13 +204,15 @@ const Preview = (props: PreviewType) => {
         }
       });
     }
+    if (items) {
+      props.shakeHandler(items);
+    }
   };
 
   return (
     <div className={style.container}>
       <DndContext
         sensors={sensors}
-        collisionDetection={closestCenter}
         onDragEnd={handleDragEnd}
       >
         {items && 
