@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import itemStyles from '../ProductPage/ProductPage.module.scss';
@@ -10,6 +10,9 @@ import { Button } from '../../components/Button/Button';
 import { ItemCardProps } from '../../components/ItemCard/ItemCard';
 import { Img } from '../../Svg/Img';
 import { useForm } from 'react-hook-form';
+import { SortableContext, arrayMove, useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+import { DndContext, DragEndEvent, MouseSensor, TouchSensor, closestCenter, useSensor, useSensors } from '@dnd-kit/core';
 
 
 type ItemEdit = Omit<ItemCardProps, 'quantity' | 'src'> & Record<'srcs', string[]> & Record<'fullDescription', string>;
@@ -66,6 +69,9 @@ export const EditCardPage = () => {
       setImagePreviews(images);
     }
   }
+  const filterFilesHandler = (src: string) => {
+    setImagePreviews(imagePreviews.filter(item=>item !== src))
+  }
 
   return (
     <form className="main" onSubmit={onSubmit}>
@@ -120,14 +126,13 @@ export const EditCardPage = () => {
         <Button onClick={handlePick}>Выбрать фото</Button>
       </>
 
-      <div className={style.container}>
-        {imagePreviews.map(file=>
-        <div className={style.preview}>
-          <img src={file} alt='new photo' />
-          <input type='button' />
-        </div>
-        )}
-      </div>
+      
+      <Preview srcs={imagePreviews}
+        addHandler={handlePick}
+        deleteHandler={filterFilesHandler}
+        shakeHandler={() => {}}
+      />
+      
 
       <label className={style.description}>
         Краткое описание
@@ -163,3 +168,87 @@ export const EditCardPage = () => {
     </form>
   );
 };
+
+type PreviewType = {
+  srcs?: string[],
+  deleteHandler: (item: string) => void,
+  addHandler: () => void,
+  shakeHandler: () => void,
+}
+
+const Preview = (props: PreviewType) => {
+  const [ items, setItems ] = useState<string[] | undefined>(props.srcs); 
+  useEffect(() => {
+    setItems(props.srcs);
+  }, [props.srcs]);
+
+  const sensors = useSensors(
+    useSensor(MouseSensor, { activationConstraint: { distance: 5 } }),
+    useSensor(TouchSensor, { activationConstraint: { delay: 50, tolerance: 10 } })
+  );
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+
+    if (over && active.id !== over.id) {
+      setItems((items) => {
+        if (items) {
+          const oldIndex = items?.findIndex((item) => item === active.id);
+          const newIndex = items?.findIndex((item) => item === over.id);
+          
+          return arrayMove(items, oldIndex, newIndex);
+        }
+      });
+    }
+  };
+
+  return (
+    <div className={style.container}>
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragEnd={handleDragEnd}
+      >
+        {items && 
+        <SortableContext items={items}>
+
+          {items.map(file=>
+          <div className={style.preview} key={file}>
+            <SortablePreviewItem src={file} deleteHandler={props.deleteHandler} />
+          </div>
+          )}
+        </SortableContext>}
+        <div className={`${style.add} ${style.preview}`} onClick={props.addHandler}>
+          <div className={style.plus}></div>
+        </div>
+
+      </DndContext>
+    </div>
+  );
+};
+
+const SortablePreviewItem = (props: {src: string, deleteHandler: (item: string) => void}) => {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transition,
+    transform,
+    isDragging
+  } = useSortable({id: props.src});
+
+  const styleItem = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    zIndex: isDragging ? 10 : 1
+  };
+
+  return (
+    <div ref={setNodeRef} style={styleItem} {...attributes} {...listeners}>
+      <div className={style.preview} key={props.src}>
+        <img src={props.src} alt='new photo' />
+        <div className={style.cross} onClick={()=>props.deleteHandler(props.src)}/>
+      </div>
+    </div>
+  )
+}

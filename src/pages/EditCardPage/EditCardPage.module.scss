@@ -80,20 +80,29 @@
     width: 100%;
   }
 
-  &>input {
+  &>.cross {
     position: absolute;
-    right: 10px;
+    right: 20px;
     top: 10px;
     outline: none;
     border: none;
     cursor: pointer;
-    width: 16px;
+
+    &:active {
+      &::before, &::after {
+        background-color: $primary-blue;
+      }
+    }
+    
 
     &::before, &::after {
       content: '';
       width: 16px;
       height: 1px;
-      background: $common-black;
+      background-color: $common-black;
+      position: absolute;
+      transition: all 0.3s ease-in;
+
     }
 
     &::before {
@@ -103,4 +112,32 @@
       transform: rotate(-45deg);
     }
   }
+}
+
+.add {
+  border: 1px dashed #ccc;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .plus {
+    transform: translateX(-16px);
+    
+    &::before, &::after {
+      content: '';
+      width: 32px;
+      height: 2px;
+      background-color: #ccc;
+      position: absolute;
+      transition: all 0.3s ease-in;
+    }
+    &::before {
+      
+    }
+    &::after {
+      transform: rotate(90deg);
+    }
+  }
+
 }

@@ -36,7 +36,6 @@ export const CatalogEditPage = () => {
         return arrayMove(items, oldIndex, newIndex);
       });
     }
-    console.log(items)
   };
 
   return (
