@@ -1,8 +1,7 @@
 import styles from './ItemCard.module.scss';
 import { Button } from '../Button/Button';
-import { useAppDispatch } from '../../hooks/storeHooks';
-import { add, remove } from '../../store/catalogSlice';
 import { Link } from 'react-router-dom';
+import { ItemsButtonsContainer } from './ItemsButtonsContainer';
 
 export type ItemCardProps = {
   id: string,
@@ -20,7 +19,7 @@ export const ItemCard = (props: ItemCardProps) => {
   return (
     <div className={styles.card}>
       <ItemLink {...props}/>
-      <ItemsButtonsContainer itemId={props.id} quantity={props.quantity}/>
+      <ItemsButtonsContainer itemId={props.id} />
     </div>
   );
 };
@@ -59,32 +58,3 @@ export const ItemLink = (props: ItemCardProps) => {
   )
 };
 
-export type ItemsButtonsContainerProps = {
-  itemId: string,
-  quantity?: number,
-}
-
-export const ItemsButtonsContainer = (props: ItemsButtonsContainerProps) => {
-  const dispatch = useAppDispatch();
-
-  const increment = (id: string) => {
-    dispatch(add(id))
-  };
-  const decrement = (id: string) => {
-    dispatch(remove(id))
-  };
-
-  return (
-  <>
-    { props.quantity ?
-    <div className={styles.amount_container}>
-      <Button onClick={() => decrement(props.itemId)}>-</Button>
-      <div>{props.quantity}</div>
-      <Button onClick={() => increment(props.itemId)}>+</Button>
-    </div>
-    :
-    <Button onClick={() => increment(props.itemId)}>В КОРЗИНУ</Button>
-    }
-  </>
-  )
-};

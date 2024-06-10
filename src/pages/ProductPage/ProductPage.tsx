@@ -6,24 +6,15 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import './SwiperStyles.scss';
 import { Autoplay, Navigation, Pagination } from 'swiper/modules';
-import { ItemsButtonsContainer } from '../../components/ItemCard/ItemCard';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/storeHooks';
 import { fetchCard } from '../../store/cardSlice';
-
-
-export const slidesMock = [
-  {id: 1, src: '/7cecfbda-35d1-48f8-9599-4a884bc158a3.jpg'},
-  {id: 2, src: '/7cecfbda-35d1-48f8-9599-4a884bc158a3.jpg'},
-  {id: 3, src: '/7cecfbda-35d1-48f8-9599-4a884bc158a3.jpg'},
-  {id: 4, src: '/7cecfbda-35d1-48f8-9599-4a884bc158a3.jpg'},
-]
+import { ItemsButtonsContainer } from '../../components/ItemCard/ItemsButtonsContainer';
 
 export const ProductPage = () => {
   const { id } = useParams();
   const dispatch = useAppDispatch();
   const { isLoading, card, error } = useAppSelector(state => state.card);
-  const { list } = useAppSelector(state => state.catalog)
 
   useEffect(() => {
     dispatch(fetchCard(id));
@@ -62,12 +53,13 @@ export const ProductPage = () => {
             </Swiper>
           </div>
           <div className={style.buttons}>
-            <ItemsButtonsContainer itemId={id!.toString()} quantity={list.find(item => item?.id === id)?.quantity} />
+            {id && <ItemsButtonsContainer itemId={id} />}
+            
           </div>
 
       
           <div className="description">
-
+                
             <p className={style.bold}>
               измельчённая кора,{'\n'}бразильский можжевельник
             </p>

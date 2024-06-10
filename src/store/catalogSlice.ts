@@ -45,7 +45,7 @@ const catalogSlice = createSlice({
   initialState,
   reducers: {
     add (state, action: PayloadAction<string>) {
-      const addedItem = state.list.find(item => item.id === action.payload);
+      const addedItem = state.list.find(item => item.id == action.payload);
       if (addedItem) {
         if (!addedItem.quantity) {
           addedItem.quantity = 0;
@@ -54,7 +54,7 @@ const catalogSlice = createSlice({
       }
     },
     remove (state, action: PayloadAction<string>) {
-      const removedItem = state.list.find(item => item.id === action.payload);
+      const removedItem = state.list.find(item => item.id == action.payload);
       if (removedItem) {
         removedItem.quantity -= 1;
       }

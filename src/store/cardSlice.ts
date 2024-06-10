@@ -32,7 +32,7 @@ export const fetchCard = createAsyncThunk<Card, string | undefined, {rejectValue
         return rejectWithValue('Server Error!');
       }
       const data = await response.data;
-      console.log(data)
+      
       return data;
     }
 );
