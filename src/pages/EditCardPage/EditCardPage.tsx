@@ -45,55 +45,38 @@ export const EditCardPage = () => {
 
 
   const onSubmit = handleSubmit(async (data) => {
-    console.log(data)
+    
     const descriptionTemp = {
       description,
       fullDescription
-    }
+    };
+
     const dataToSend = {
       ...item,
       ...data,
       ...descriptionTemp,
       id
-    }
-//////////////////////////////////    
+    };
+       
     try {
       const uploadPromises = [];
-  
-      for (const file in selectedFiles) {
-        const formData = new FormData();
-        formData.append('file', file);
-        
-        await axios.post(`${baseURL}/api/upload`, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        })
-        // const res = await fetch(`${baseURL}/api/upload`, {
-        //     method: 'POST',
-        //     body: formData,
-        //   })
-        //   const data = await res.json();
-
-          // console.log(data)
-        uploadPromises.push(axios.post(`${baseURL}/api/upload`, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }));
-        console.log(uploadPromises)
+      if (selectedFiles) {
+        for (const file of selectedFiles) {
+          const formData = new FormData();
+          formData.append('file', file);
+          
+          uploadPromises.push(axios.post(`${baseURL}/api/upload`, formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }));
+        }
       }
-      // Promise.all(uploadPromises);
+      Promise.all(uploadPromises);
       
     } catch (error) {
       console.log(error)
     }
-/////////////////////////////
-    // const res =  await fetch(url, {
-    //   method: 'POST',
-    //   body: formData,
-    // })
-    // const data = await res.json();
     console.log(dataToSend);
   });
 

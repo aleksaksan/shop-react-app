@@ -43,7 +43,7 @@ export const ItemToEdit = (props: ItemCardProps) => {
     <div className={styles.card}>
       <div className={styles.wrapper}>
         <ItemInfo {...props}/>
-        <Button linkTo={props.id}>Редактировать</Button>
+        <Button linkTo={props.id.toString()}>Редактировать</Button>
       </div>
     </div>
   )
