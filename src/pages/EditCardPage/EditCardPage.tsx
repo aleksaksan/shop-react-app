@@ -16,13 +16,13 @@ import { DndContext, DragEndEvent, MouseSensor, TouchSensor, useSensor, useSenso
 import axios from 'axios';
 
 
-type ItemEdit = Omit<ItemCardProps, 'quantity' | 'src'> & Record<'srcs', string[]> & Record<'fullDescription', string>;
+type ItemEdit = Omit<ItemCardProps, 'quantity' | 'src'> & Record<'fullDescription', string>;
 
 type selectedFileType = { 
   id: string,
   file: File,
   url: string
-}
+};
 
 export const EditCardPage = () => {
   const { id } = useParams();
@@ -32,6 +32,7 @@ export const EditCardPage = () => {
   const [fullDescription, setFullDescription] = useState(item?.fullDescription);
   const [selectedFiles, setSelectedFiles] = useState<selectedFileType[]>([]);
   const filePicker = useRef<HTMLInputElement>(null);
+  const [isEmpty, setIsEmpty] = useState(true);
 
   const baseURL = 'http://localhost:8000'
 
@@ -41,6 +42,14 @@ export const EditCardPage = () => {
     formState: { isValid },
   } = useForm();
 
+  useEffect(() => {
+    if (!description  || !fullDescription || description === "<p><br></p>" || fullDescription === "<p><br></p>") {
+      setIsEmpty(true);
+    } else {
+      setIsEmpty(false);
+    }
+  }, [description, fullDescription, isEmpty]);
+
   const handlePick = () => {
     if (filePicker.current) {
       filePicker.current.click();
@@ -49,15 +58,12 @@ export const EditCardPage = () => {
 
   const onSubmit = handleSubmit(async (data) => {
     
-    const descriptionTemp = {
-      description,
-      fullDescription
-    };
 
     const dataToSend = {
       ...item,
       ...data,
-      ...descriptionTemp,
+      description: description,
+      fullDescription: fullDescription,
       id
     };
        
@@ -74,6 +80,7 @@ export const EditCardPage = () => {
                   });
         }
       }
+      // axios.post(`${baseURL}/api/add-card`, dataToSend);
     } catch (error) {
       console.log(error)
     }
@@ -104,7 +111,7 @@ export const EditCardPage = () => {
   };
 
   return (
-    <form className="main" onSubmit={onSubmit}>
+    <form className="main w-44" onSubmit={onSubmit}>
       <>
         <input
           className={style.title} 
@@ -193,8 +200,8 @@ export const EditCardPage = () => {
           }
         />
         
-      {!isValid && <span className={style.error}>Не все поля заполнены!</span>}
-      <Button disabled={!isValid}>Сохранить</Button>
+      {(!isValid || isEmpty) && <span className={style.error}>Не все поля заполнены!</span>}
+      <Button disabled={!isValid || isEmpty}>Сохранить</Button>
     </form>
   );
 };

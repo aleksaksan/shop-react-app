@@ -41,3 +41,7 @@ $common-black: #000;
 .display-none {
 	display: none;
 }
+
+.w-44 {
+  max-width: calc(100vw - 44px);
+}

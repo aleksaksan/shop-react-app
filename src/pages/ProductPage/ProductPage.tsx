@@ -21,7 +21,7 @@ export const ProductPage = () => {
   }, [dispatch, id]);
   
   return (
-    <div className="main">
+    <div className="main w-44">
       {isLoading && 'Loading...'}
       {error ?
         error :
