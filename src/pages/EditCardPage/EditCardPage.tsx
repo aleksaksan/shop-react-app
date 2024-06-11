@@ -18,15 +18,19 @@ import axios from 'axios';
 
 type ItemEdit = Omit<ItemCardProps, 'quantity' | 'src'> & Record<'srcs', string[]> & Record<'fullDescription', string>;
 
+type selectedFileType = { 
+  id: string,
+  file: File,
+  url: string
+}
+
 export const EditCardPage = () => {
   const { id } = useParams();
   const [item] = useState<ItemEdit>();
   // const [item, setItem] = useState<ItemEdit>();
   const [description, setDescription] = useState(item?.description);
   const [fullDescription, setFullDescription] = useState(item?.fullDescription);
-  const [imagePreviews, setImagePreviews] = useState<string[]>([]);
-  const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
-  // const [slides] = useState(slidesMock);
+  const [selectedFiles, setSelectedFiles] = useState<selectedFileType[]>([]);
   const filePicker = useRef<HTMLInputElement>(null);
 
   const baseURL = 'http://localhost:8000'
@@ -43,7 +47,6 @@ export const EditCardPage = () => {
     }
   };
 
-
   const onSubmit = handleSubmit(async (data) => {
     
     const descriptionTemp = {
@@ -59,21 +62,18 @@ export const EditCardPage = () => {
     };
        
     try {
-      const uploadPromises = [];
       if (selectedFiles) {
-        for (const file of selectedFiles) {
+        for (const fileObj of selectedFiles) {
           const formData = new FormData();
-          formData.append('file', file);
-          
-          uploadPromises.push(axios.post(`${baseURL}/api/upload`, formData, {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          }));
+          formData.append('file', fileObj.file);
+
+          axios.post(`${baseURL}/api/upload`, formData, {
+                    headers: {
+                      "Content-Type": "multipart/form-data",
+                    },
+                  });
         }
       }
-      Promise.all(uploadPromises);
-      
     } catch (error) {
       console.log(error)
     }
@@ -82,22 +82,25 @@ export const EditCardPage = () => {
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
-    const images: Array<string> = [];
     
     if (files) {
+
       for (let i = 0; i < files.length; i++) {
-        images.push(URL.createObjectURL(files[i]));
+        const newItem: selectedFileType = {
+          id: URL.createObjectURL(files[i]),
+          file: files[i],
+          url: URL.createObjectURL(files[i])
+        }
+        setSelectedFiles(prev => [...prev, newItem]);
       }
-  
-      setSelectedFiles(files);
-      setImagePreviews(images);
     }
-  }
-  const filterFilesHandler = (src: string) => {
-    setImagePreviews(imagePreviews.filter(item=>item !== src))
   };
-  const shakeHandler = (imgUrls: string[]) => {
-    setImagePreviews(imgUrls);
+
+  const filterFilesHandler = (id: string) => {
+    setSelectedFiles(selectedFiles.filter(item => item.id !== id));
+  };
+  const shakeHandler = (files: selectedFileType[]) => {
+    setSelectedFiles(files);
   };
 
   return (
@@ -127,7 +130,7 @@ export const EditCardPage = () => {
               {...register('price', {required: true})}
             />
           </div>
-          {item?.srcs.length ?
+          {selectedFiles.length ?
           <Swiper
             className={itemStyles.swiper}
             grabCursor={true}
@@ -138,9 +141,9 @@ export const EditCardPage = () => {
             }}
             modules={[Navigation, Pagination]}
             >
-            { item?.srcs.map((img) => (
-              <SwiperSlide key={img}>
-                {<img src={img} alt={''}/>}
+            { selectedFiles.map((img) => (
+              <SwiperSlide key={img.id}>
+                {<img src={img.url} alt={'new photo'}/>}
               </SwiperSlide>
             
             ))}
@@ -153,7 +156,8 @@ export const EditCardPage = () => {
       </>
 
       
-      <Preview srcs={imagePreviews}
+      <Preview 
+        srcs={selectedFiles}
         addHandler={handlePick}
         deleteHandler={filterFilesHandler}
         shakeHandler={shakeHandler}
@@ -196,14 +200,14 @@ export const EditCardPage = () => {
 };
 
 type PreviewType = {
-  srcs?: string[],
+  srcs?: selectedFileType[],
   deleteHandler: (item: string) => void,
   addHandler: () => void,
-  shakeHandler: (imgUrls: string[]) => void,
+  shakeHandler: (imgUrls: selectedFileType[]) => void,
 }
 
 const Preview = (props: PreviewType) => {
-  const [ items, setItems ] = useState<string[] | undefined>(props.srcs); 
+  const [ items, setItems ] = useState<selectedFileType[] | undefined>(props.srcs); 
 
   useEffect(() => {
     setItems(props.srcs);
@@ -220,8 +224,8 @@ const Preview = (props: PreviewType) => {
     if (over && active.id !== over.id) {
       setItems((items) => {
         if (items) {
-          const oldIndex = items?.findIndex((item) => item === active.id);
-          const newIndex = items?.findIndex((item) => item === over.id);
+          const oldIndex = items?.findIndex((item) => item.id === active.id);
+          const newIndex = items?.findIndex((item) => item.id === over.id);
           
           return arrayMove(items, oldIndex, newIndex);
         }
@@ -242,9 +246,7 @@ const Preview = (props: PreviewType) => {
         <SortableContext items={items}>
 
           {items.map(file=>
-          <div className={style.preview} key={file}>
-            <SortablePreviewItem src={file} deleteHandler={props.deleteHandler} />
-          </div>
+            <SortablePreviewItem  key={file.id} src={file} deleteHandler={props.deleteHandler} />
           )}
         </SortableContext>}
         <div className={`${style.add} ${style.preview}`} onClick={props.addHandler}>
@@ -256,7 +258,7 @@ const Preview = (props: PreviewType) => {
   );
 };
 
-const SortablePreviewItem = (props: {src: string, deleteHandler: (item: string) => void}) => {
+const SortablePreviewItem = (props: {src: selectedFileType, deleteHandler: (id: string) => void}) => {
   const {
     attributes,
     listeners,
@@ -264,7 +266,7 @@ const SortablePreviewItem = (props: {src: string, deleteHandler: (item: string) 
     transition,
     transform,
     isDragging
-  } = useSortable({id: props.src});
+  } = useSortable({id: props.src.id});
 
   const styleItem = {
     transform: CSS.Transform.toString(transform),
@@ -274,9 +276,9 @@ const SortablePreviewItem = (props: {src: string, deleteHandler: (item: string) 
 
   return (
     <div ref={setNodeRef} style={styleItem} {...attributes} {...listeners}>
-      <div className={style.preview} key={props.src}>
-        <img src={props.src} alt='new photo' />
-        <div className={style.cross} onClick={()=>props.deleteHandler(props.src)}/>
+      <div className={style.preview} key={props.src.id}>
+        <img src={props.src.url} alt='new photo' />
+        <div className={style.cross} onClick={()=>props.deleteHandler(props.src.id)}/>
       </div>
     </div>
   )

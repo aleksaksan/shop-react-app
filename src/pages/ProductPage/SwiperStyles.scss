@@ -1,8 +1,10 @@
 @import '../../styles/common';
 
 .swiper-slide {
-  background-position: center;
-  background-size: cover;
+  &>img {
+    width: 100%;
+    object-fit: cover;
+  }
 }
 
 .swiper-button-prev, .swiper-button-next {
