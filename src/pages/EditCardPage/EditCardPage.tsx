@@ -69,22 +69,24 @@ export const EditCardPage = () => {
        
     try {
       if (selectedFiles) {
+        const formData = new FormData();
         for (const fileObj of selectedFiles) {
-          const formData = new FormData();
-          formData.append('file', fileObj.file);
-
-          axios.post(`${baseURL}/api/upload`, formData, {
-                    headers: {
-                      "Content-Type": "multipart/form-data",
-                    },
-                  });
+          formData.append('files', fileObj.file);
         }
+        formData.append('data', JSON.stringify(dataToSend))
+
+        axios.post(`${baseURL}/api/upload`, formData, {
+                  headers: {
+                    "Content-Type": "multipart/form-data",
+                  },
+                });
       }
-      // axios.post(`${baseURL}/api/add-card`, dataToSend);
+      // if (isValid || !isEmpty) {
+      //   axios.post(`${baseURL}/api/add-card`, dataToSend);
+      // }
     } catch (error) {
       console.log(error)
     }
-    console.log(dataToSend);
   });
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
