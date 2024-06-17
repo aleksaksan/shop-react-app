@@ -9,7 +9,7 @@ import style from './EditCardPage.module.scss';
 import { Button } from '../../components/Button/Button';
 import { ItemCardProps } from '../../components/ItemCard/ItemCard';
 import { Img } from '../../Svg/Img';
-import { useForm } from 'react-hook-form';
+import { FieldValues, useForm } from 'react-hook-form';
 import { SortableContext, arrayMove, useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { DndContext, DragEndEvent, MouseSensor, TouchSensor, useSensor, useSensors } from '@dnd-kit/core';
@@ -24,12 +24,13 @@ type selectedFileType = {
   url: string
 };
 
+
 export const EditCardPage = () => {
   const { id } = useParams();
   const [item] = useState<ItemEdit>();
   // const [item, setItem] = useState<ItemEdit>();
-  const [description, setDescription] = useState(item?.description);
-  const [fullDescription, setFullDescription] = useState(item?.fullDescription);
+  const [description, setDescription] = useState('');
+  const [fullDescription, setFullDescription] = useState('');
   const [selectedFiles, setSelectedFiles] = useState<selectedFileType[]>([]);
   const filePicker = useRef<HTMLInputElement>(null);
   const [isEmpty, setIsEmpty] = useState(true);
@@ -59,8 +60,7 @@ export const EditCardPage = () => {
   const onSubmit = handleSubmit(async (data) => {
     
 
-    const dataToSend = {
-      ...item,
+    const dataToSend: FieldValues = {
       ...data,
       description: description,
       fullDescription: fullDescription,
@@ -73,17 +73,19 @@ export const EditCardPage = () => {
         for (const fileObj of selectedFiles) {
           formData.append('files', fileObj.file);
         }
-        formData.append('data', JSON.stringify(dataToSend))
-
-        axios.post(`${baseURL}/api/upload`, formData, {
+        for (const key in dataToSend) {
+          if (key && dataToSend[key])
+          formData.append(key, dataToSend[key])
+        }
+        
+        const answ = await axios.post(`${baseURL}/api/card/add`, formData, {
                   headers: {
                     "Content-Type": "multipart/form-data",
                   },
                 });
+        console.log(answ.data)
       }
-      // if (isValid || !isEmpty) {
-      //   axios.post(`${baseURL}/api/add-card`, dataToSend);
-      // }
+      
     } catch (error) {
       console.log(error)
     }
