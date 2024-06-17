@@ -27,8 +27,8 @@ type selectedFileType = {
 
 export const EditCardPage = () => {
   const { id } = useParams();
-  const [item] = useState<ItemEdit>();
-  // const [item, setItem] = useState<ItemEdit>();
+  // const [item] = useState<ItemEdit>();
+  const [item, setItem] = useState<ItemEdit | null>(null);
   const [description, setDescription] = useState('');
   const [fullDescription, setFullDescription] = useState('');
   const [selectedFiles, setSelectedFiles] = useState<selectedFileType[]>([]);
@@ -50,6 +50,19 @@ export const EditCardPage = () => {
       setIsEmpty(false);
     }
   }, [description, fullDescription, isEmpty]);
+
+  useEffect(() => {
+    if (id) {
+      axios({
+        method: 'get',
+        url: `${baseURL}/api/card/${id}`,
+      }).then(res => {
+        setItem(res.data as ItemEdit);
+        setDescription(res.data.description);
+        setFullDescription(res.data.fullDescription);
+      })
+    }
+  }, [id]);
 
   const handlePick = () => {
     if (filePicker.current) {

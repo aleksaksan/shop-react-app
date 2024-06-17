@@ -33,7 +33,7 @@ const ItemInfo = (props: ItemCardProps) => {
         <div className={styles.price}>{props.price} ₽</div>
       </div>
       <h2>{props.title}</h2>
-      <p>{props.description}</p>
+      {props.description && <p dangerouslySetInnerHTML={{__html: props.description}}></p>}
     </>
   )
 };
