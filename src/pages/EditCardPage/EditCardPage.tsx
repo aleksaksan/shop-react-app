@@ -33,7 +33,7 @@ export const EditCardPage = () => {
   const [fullDescription, setFullDescription] = useState('');
   const [selectedFiles, setSelectedFiles] = useState<selectedFileType[]>([]);
   const filePicker = useRef<HTMLInputElement>(null);
-  const [isEmpty, setIsEmpty] = useState(true);
+  const [isEmpty, setIsEmpty] = useState(false);
 
   const baseURL = 'http://localhost:8000'
 
@@ -133,7 +133,7 @@ export const EditCardPage = () => {
         <input
           className={style.title} 
           type='text'
-          value={item?.title}
+          defaultValue={item?.title}
           placeholder='Название товара'
           {...register('title', {required: true})}
         />
@@ -142,14 +142,14 @@ export const EditCardPage = () => {
             <input
               className={style.weight}
               type='text'
-              value={item?.weight}
+              defaultValue={item?.weight}
               placeholder='Вес г'
               {...register('weight', {required: true})}
             />
             <input
               className={style.price}
               type='text'
-              value={item?.price}
+              defaultValue={item?.price}
               placeholder='Цена  ₽'
               {...register('price', {required: true})}
             />
