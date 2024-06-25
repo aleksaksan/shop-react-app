@@ -10,6 +10,7 @@ import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/storeHooks';
 import { fetchCard } from '../../store/cardSlice';
 import { ItemsButtonsContainer } from '../../components/ItemCard/ItemsButtonsContainer';
+import { STATICFOLDER } from '../../components/ItemCard/ItemCard';
 
 export const ProductPage = () => {
   const { id } = useParams();
@@ -48,7 +49,7 @@ export const ProductPage = () => {
             >
               {card?.srcs.map((img) => (
                 <SwiperSlide key={img.id}>
-                  {<img src={img.src} alt={img.id}/>}
+                  {<img src={`${STATICFOLDER}${img.src}`} alt={img.id}/>}
                 </SwiperSlide>))}
             </Swiper>
           </div>

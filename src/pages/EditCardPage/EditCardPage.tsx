@@ -7,20 +7,21 @@ import { SwiperSlide, Swiper } from 'swiper/react';
 import { useParams } from 'react-router-dom';
 import style from './EditCardPage.module.scss';
 import { Button } from '../../components/Button/Button';
-import { ItemCardProps } from '../../components/ItemCard/ItemCard';
+import { ItemCardProps, STATICFOLDER } from '../../components/ItemCard/ItemCard';
 import { Img } from '../../Svg/Img';
 import { FieldValues, useForm } from 'react-hook-form';
 import { SortableContext, arrayMove, useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { DndContext, DragEndEvent, MouseSensor, TouchSensor, useSensor, useSensors } from '@dnd-kit/core';
 import axios from 'axios';
+import { Image } from '../../store/cardSlice';
 
 
-type ItemEdit = Omit<ItemCardProps, 'quantity' | 'src'> & Record<'fullDescription', string>;
+type ItemEdit = Omit<ItemCardProps, 'quantity' | 'src'> & Record<'fullDescription', string> & Record<'srcs', string[]>;
 
 type selectedFileType = { 
   id: string,
-  file: File,
+  file?: File,
   url: string
 };
 
@@ -60,6 +61,13 @@ export const EditCardPage = () => {
         setItem(res.data as ItemEdit);
         setDescription(res.data.description);
         setFullDescription(res.data.fullDescription);
+        const srcs = res.data.srcs.map((item: Image) => {
+          return {
+            id: item.id,
+            url: STATICFOLDER + item.src
+          }
+        })
+        setSelectedFiles(srcs);
       })
     }
   }, [id]);
@@ -84,7 +92,9 @@ export const EditCardPage = () => {
       if (selectedFiles) {
         const formData = new FormData();
         for (const fileObj of selectedFiles) {
-          formData.append('files', fileObj.file);
+          if (fileObj.file) {
+            formData.append('files', fileObj.file);
+          }
         }
         for (const key in dataToSend) {
           if (key && dataToSend[key])
@@ -154,6 +164,7 @@ export const EditCardPage = () => {
               {...register('price', {required: true})}
             />
           </div>
+          
           {selectedFiles.length ?
           <Swiper
             className={itemStyles.swiper}
@@ -165,12 +176,12 @@ export const EditCardPage = () => {
             }}
             modules={[Navigation, Pagination]}
             >
-            { selectedFiles.map((img) => (
+            {selectedFiles.map((img) => (
               <SwiperSlide key={img.id}>
                 {<img src={img.url} alt={'new photo'}/>}
               </SwiperSlide>
-            
-            ))}
+            ))
+            }
           </Swiper>: 
           <Img />
           }

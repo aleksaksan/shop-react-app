@@ -12,7 +12,7 @@ type Card = {
   srcs: Image []
 };
 
-type Image = {
+export type Image = {
   id: string,
   src: string
 }
