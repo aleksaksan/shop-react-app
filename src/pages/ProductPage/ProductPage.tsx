@@ -10,7 +10,7 @@ import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/storeHooks';
 import { fetchCard } from '../../store/cardSlice';
 import { ItemsButtonsContainer } from '../../components/ItemCard/ItemsButtonsContainer';
-import { baseUrl } from '../../assets/consts';
+import { baseUrl } from '../../consts/consts';
 
 export const ProductPage = () => {
   const { id } = useParams();
@@ -47,29 +47,23 @@ export const ProductPage = () => {
               }}
               modules={[Navigation, Pagination, Autoplay]}
             >
-              {card?.srcs.map((img) => (
+              {card?.images.map((img) => (
                 <SwiperSlide key={img.id}>
-                  {<img src={`${baseUrl}/${img.src}`} alt={img.id}/>}
+                  {<img src={`${baseUrl}${img.name}`} alt={img.name}/>}
                 </SwiperSlide>))}
             </Swiper>
           </div>
           <div className={style.buttons}>
             {id && <ItemsButtonsContainer itemId={id} />}
-            
           </div>
-
-      
+          
           <div className="description">
-                
-            <p className={style.bold}>
-              измельчённая кора,{'\n'}бразильский можжевельник
-            </p>
-            <p>один из самых сильных растительных афродизиаков, быстродействующий антидепрессант, улучшатель памяти, улучшатель настроения, улучшатель либидо, сниматель стрессов</p>
-            <p className={style.bold}>
-              просто вкусный и необычный напиток
-            </p>
-            <p>чтобы выжать из катуабы максимум, нужно 5 гр. коры (столовая ложка) варить 10 минут на воде или на молоке, (на молоке получается намного ВКУСНЕЕ), после - процедить через сито</p>
+            {card?.description}
           </div>
+          <div className="description">
+            {card?.full_description.fullDescription}
+          </div>
+          
         </>
       }
     </div>

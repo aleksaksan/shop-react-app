@@ -9,7 +9,7 @@ export interface IProductShortModel {
 
 export interface IProductModel extends IProductShortModel {
   images: IImageModel[],
-  fullDescription: IFullDescriptionModel[],
+  full_description: IFullDescriptionModel,
 }
 
 export interface IImageModel {

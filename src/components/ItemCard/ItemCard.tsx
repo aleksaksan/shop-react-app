@@ -2,7 +2,7 @@ import styles from './ItemCard.module.scss';
 import { Button } from '../Button/Button';
 import { Link } from 'react-router-dom';
 import { ItemsButtonsContainer } from './ItemsButtonsContainer';
-import { baseUrl } from '../../assets/consts';
+import { baseUrl } from '../../consts/consts';
 
 export type ItemCardProps = {
   id: string,

@@ -14,8 +14,8 @@ import { SortableContext, arrayMove, useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { DndContext, DragEndEvent, MouseSensor, TouchSensor, useSensor, useSensors } from '@dnd-kit/core';
 import axios from 'axios';
-import { Image } from '../../store/cardSlice';
-import { baseUrl } from '../../assets/consts';
+import { baseUrl, productstUrl } from '../../consts/consts';
+import { IImageModel } from '../../models/Product';
 
 
 type ItemEdit = Omit<ItemCardProps, 'quantity' | 'src'> & Record<'fullDescription', string> & Record<'srcs', string[]>;
@@ -37,8 +37,6 @@ export const EditCardPage = () => {
   const filePicker = useRef<HTMLInputElement>(null);
   const [isEmpty, setIsEmpty] = useState(false);
 
-  const baseURL = 'http://localhost:8000'
-
   const {
     register,
     handleSubmit,
@@ -57,15 +55,15 @@ export const EditCardPage = () => {
     if (id) {
       axios({
         method: 'get',
-        url: `${baseURL}/api/card/${id}`,
+        url: `${productstUrl}${id}`,
       }).then(res => {
         setItem(res.data as ItemEdit);
         setDescription(res.data.description);
-        setFullDescription(res.data.fullDescription);
-        const srcs = res.data.srcs.map((item: Image) => {
+        setFullDescription(res.data.full_description.fullDescription);
+        const srcs = res.data.images.map((item: IImageModel) => {
           return {
             id: item.id,
-            url: baseUrl + item.src
+            url: baseUrl + item.name
           }
         })
         setSelectedFiles(srcs);
@@ -103,7 +101,7 @@ export const EditCardPage = () => {
           formData.append(key, dataToSend[key])
         }
         
-        const answ = await axios.post(`${baseURL}/api/card/add`, formData, {
+        const answ = await axios.post(`${productstUrl}/add`, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
@@ -111,7 +109,7 @@ export const EditCardPage = () => {
         console.log(answ.data)
       }
       if (id) {
-        await axios.put(`${baseURL}/api/card/${id}`, formData, {
+        await axios.put(`${productstUrl}${id}`, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
