@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction, createAsyncThunk, Action } from '@reduxjs/toolkit';
 import axios from 'axios';
-
-export const baseUrl = 'http://localhost:8000'
+import { IProductShortModel } from '../models/product';
+import { baseUrl } from '../assets/consts';
 
 export type Item = {
   id: string;
@@ -22,14 +22,25 @@ type CatalogState = {
 export const fetchCatalog = createAsyncThunk<Item[], undefined, {rejectValue: string}>(
     'catalog/fetchCatalog',
     async function (_, { rejectWithValue }) {
-      const response = await axios.get(`${baseUrl}/api/catalog`);
+      const response = await axios.get(`${baseUrl}/api/products`);
 
       if (response.status !== 200) {
         return rejectWithValue('Server Error!');
       }
-      const data = await response.data;
+      const data = await response.data as IProductShortModel[];
 
-      return data;
+      const res: Item[] = data.map(item => {
+        return {
+          id: item.id,
+          title: item.title,
+          price: item.price,
+          weight: item.weight,
+          quantity: 0,
+          description: item.description,
+          src: item.thumbnail,
+        }
+      })
+      return res;
     }
 );
 

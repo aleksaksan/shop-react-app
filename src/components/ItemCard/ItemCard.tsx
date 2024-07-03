@@ -2,6 +2,7 @@ import styles from './ItemCard.module.scss';
 import { Button } from '../Button/Button';
 import { Link } from 'react-router-dom';
 import { ItemsButtonsContainer } from './ItemsButtonsContainer';
+import { baseUrl } from '../../assets/consts';
 
 export type ItemCardProps = {
   id: string,
@@ -24,15 +25,13 @@ export const ItemCard = (props: ItemCardProps) => {
   );
 };
 
-//TODO delete this sh...
-export const STATICFOLDER = 'http://localhost:8000/';
 const ItemInfo = (props: ItemCardProps) => {
   props.src
 
   return (
     <>
       <div className={styles.image_wrapper}>
-        <img src={`${STATICFOLDER}${props.src}`} alt={props.title} />
+        <img src={`${baseUrl}/${props.src}`} alt={props.title} />
         <div className={styles.weight}>{props.weight} г</div>
         <div className={styles.price}>{props.price} ₽</div>
       </div>

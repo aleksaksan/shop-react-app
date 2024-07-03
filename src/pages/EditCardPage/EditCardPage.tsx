@@ -7,7 +7,7 @@ import { SwiperSlide, Swiper } from 'swiper/react';
 import { useParams } from 'react-router-dom';
 import style from './EditCardPage.module.scss';
 import { Button } from '../../components/Button/Button';
-import { ItemCardProps, STATICFOLDER } from '../../components/ItemCard/ItemCard';
+import { ItemCardProps } from '../../components/ItemCard/ItemCard';
 import { Img } from '../../Svg/Img';
 import { FieldValues, useForm } from 'react-hook-form';
 import { SortableContext, arrayMove, useSortable } from '@dnd-kit/sortable';
@@ -15,6 +15,7 @@ import { CSS } from '@dnd-kit/utilities';
 import { DndContext, DragEndEvent, MouseSensor, TouchSensor, useSensor, useSensors } from '@dnd-kit/core';
 import axios from 'axios';
 import { Image } from '../../store/cardSlice';
+import { baseUrl } from '../../assets/consts';
 
 
 type ItemEdit = Omit<ItemCardProps, 'quantity' | 'src'> & Record<'fullDescription', string> & Record<'srcs', string[]>;
@@ -64,7 +65,7 @@ export const EditCardPage = () => {
         const srcs = res.data.srcs.map((item: Image) => {
           return {
             id: item.id,
-            url: STATICFOLDER + item.src
+            url: baseUrl + item.src
           }
         })
         setSelectedFiles(srcs);
@@ -89,8 +90,9 @@ export const EditCardPage = () => {
     };
        
     try {
-      if (selectedFiles) {
-        const formData = new FormData();
+      const formData = new FormData();
+
+      if (selectedFiles && !id) {
         for (const fileObj of selectedFiles) {
           if (fileObj.file) {
             formData.append('files', fileObj.file);
@@ -102,11 +104,18 @@ export const EditCardPage = () => {
         }
         
         const answ = await axios.post(`${baseURL}/api/card/add`, formData, {
-                  headers: {
-                    "Content-Type": "multipart/form-data",
-                  },
-                });
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
         console.log(answ.data)
+      }
+      if (id) {
+        await axios.put(`${baseURL}/api/card/${id}`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
       }
       
     } catch (error) {
