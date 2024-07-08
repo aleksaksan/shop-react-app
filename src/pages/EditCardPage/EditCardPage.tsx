@@ -29,7 +29,6 @@ type selectedFileType = {
 
 export const EditCardPage = () => {
   const { id } = useParams();
-  // const [item] = useState<ItemEdit>();
   const [item, setItem] = useState<ItemEdit | null>(null);
   const [description, setDescription] = useState('');
   const [fullDescription, setFullDescription] = useState('');
@@ -79,21 +78,29 @@ export const EditCardPage = () => {
 
   const onSubmit = handleSubmit(async (data) => {
     
+    const listOrder = selectedFiles.map((img, index) => {
+      if (!img.file) {
+        return {
+          id: img.id,
+          listOrder: index
+        }
+      }
+    }).filter((item)=>item);
 
     const dataToSend: FieldValues = {
       ...data,
       description: description,
       fullDescription: fullDescription,
-      id
+      listOrder: listOrder
     };
        
     try {
       const formData = new FormData();
 
-      if (selectedFiles && !id) {
+      if (selectedFiles) {
         for (const fileObj of selectedFiles) {
           if (fileObj.file) {
-            formData.append('files', fileObj.file);
+            formData.append('images', fileObj.file);
           }
         }
         for (const key in dataToSend) {
@@ -101,20 +108,22 @@ export const EditCardPage = () => {
           formData.append(key, dataToSend[key])
         }
         
-        const answ = await axios.post(`${productstUrl}/add`, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        });
-        console.log(answ.data)
-      }
-      if (id) {
-        await axios.put(`${productstUrl}${id}`, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        });
-      }
+        if (id) {
+          const answ = await axios.put(`${productstUrl}${id}`, formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          });
+          console.log(answ.data);
+        } else {
+          const answ = await axios.post(`${productstUrl}`, formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          });
+          console.log(answ.data);
+        }
+        }
       
     } catch (error) {
       console.log(error)
