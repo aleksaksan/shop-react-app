@@ -1,6 +1,8 @@
 @import '../../styles/common';
 
 .swiper-slide {
+  max-height: 374px;
+  
   &>img {
     width: 100%;
     height: 100%;
