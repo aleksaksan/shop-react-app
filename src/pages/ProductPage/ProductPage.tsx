@@ -58,10 +58,10 @@ export const ProductPage = () => {
           </div>
           
           <div className="description">
-            {card?.description}
+            {card?.description && <p dangerouslySetInnerHTML={{__html: card?.description}}></p>}
           </div>
           <div className="description">
-            {card?.full_description.fullDescription}
+            {card?.full_description && <p dangerouslySetInnerHTML={{__html: card?.full_description.fullDescription}}></p>}
           </div>
           
         </>
