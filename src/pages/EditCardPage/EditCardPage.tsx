@@ -78,34 +78,33 @@ export const EditCardPage = () => {
 
   const onSubmit = handleSubmit(async (data) => {
     
-    const listOrder = selectedFiles.map((img, index) => {
-      if (!img.file) {
-        return {
-          id: img.id,
-          listOrder: index
-        }
-      }
-    }).filter((item)=>item);
-
-    const dataToSend: FieldValues = {
-      ...data,
-      description: description,
-      fullDescription: fullDescription,
-      listOrder: listOrder
-    };
-       
     try {
+      const listOrder = [];
       const formData = new FormData();
 
       if (selectedFiles) {
         for (const fileObj of selectedFiles) {
           if (fileObj.file) {
             formData.append('images', fileObj.file);
+            listOrder.push(null);
+          } else {
+            listOrder.push(fileObj.id)
           }
         }
+
+        const list = {...listOrder}
+        
+        const dataToSend: FieldValues = {
+          ...data,
+          description: description,
+          fullDescription: fullDescription,
+          listOrder: JSON.stringify(list)
+        };
+        
         for (const key in dataToSend) {
-          if (key && dataToSend[key])
-          formData.append(key, dataToSend[key])
+          if (key && dataToSend[key]) {
+            formData.append(key, dataToSend[key])
+          }
         }
         
         if (id) {
@@ -123,8 +122,8 @@ export const EditCardPage = () => {
           });
           console.log(answ.data);
         }
-        }
-      
+      }
+
     } catch (error) {
       console.log(error)
     }

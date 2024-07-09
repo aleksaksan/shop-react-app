@@ -5,6 +5,9 @@ import { useAppDispatch, useAppSelector } from '../../hooks/storeHooks';
 import { Item, fetchCatalog } from '../../store/catalogSlice';
 import { ItemCardProps, ItemToEdit } from '../../components/ItemCard/ItemCard';
 import { CSS } from '@dnd-kit/utilities';
+import { Button } from '../../components/Button/Button';
+import axios from 'axios';
+import { productstUrl } from '../../consts/consts';
 
 export const CatalogEditPage = () => {
   const dispatch = useAppDispatch();
@@ -38,8 +41,14 @@ export const CatalogEditPage = () => {
     }
   };
 
+  const handleSubmit = () => {
+    const ids = items.map(item=>item.id);
+    axios.put(productstUrl, ids);
+  }
+
   return (
     <div className="main">
+      <Button onClick={handleSubmit}>Сохранить</Button>
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}
