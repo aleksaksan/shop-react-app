@@ -48,7 +48,9 @@ export const CatalogEditPage = () => {
 
   return (
     <div className="main">
-      <Button onClick={handleSubmit}>Сохранить</Button>
+      <div style={{height: '23px', width: '100%'}}>
+        <Button onClick={handleSubmit}>Сохранить</Button>
+      </div>
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}
