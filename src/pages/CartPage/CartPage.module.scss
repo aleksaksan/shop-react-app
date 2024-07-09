@@ -1,10 +1,15 @@
 .cart {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  gap: 20px;
+  flex-grow: 1;
 }
 
 .item {
   display: flex;
+  gap: 10px;
+  width: calc(100vw - 44px);
 
   img {
     display: block;
@@ -13,17 +18,31 @@
   }
 }
 
-.wrpapper {
+.wrapper {
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
+  gap: 10px;
+  &>a {
+    text-decoration: none;
+  }
 }
 
 .footer {
   max-width: 400px;
   margin: 0 auto;
   width: 100%;
+  flex-shrink: 0;
 }
 
 .empty {
-  margin-top: 100px;
+  margin: 100px auto;
+}
+
+.price {
+  min-width: 80px;
+
+  & :first-child {
+    text-align: end;
+  }
 }

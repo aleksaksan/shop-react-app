@@ -5,6 +5,7 @@ import { Item } from '../../store/catalogSlice';
 import { Link } from 'react-router-dom';
 import { useTelegram } from '../../hooks/uaeTelegram';
 import { ItemsButtonsContainer } from '../../components/ItemCard/ItemsButtonsContainer';
+import { baseUrl } from '../../consts/consts';
 
 export const CartPage = () => {
   const { list } = useAppSelector(state => state.catalog);
@@ -49,34 +50,32 @@ export const CartPage = () => {
 
   return (
     <>
-      <div className="main">
-        <div className={style.cart}>
-          {items.length ?
-            items.map((item)=> (
-            <div className={style.item} key={item.id}>
-              <Link to={item.id}><img src={item.src} alt={item.title}/></Link>
-              <div className={style.wrapper}>
-                <Link to={item.id}><h4>{item.title}</h4></Link>
-                <div className="flex-between"><h5>Цена за шт:</h5><h5>{item.price}</h5></div>
-                <ItemsButtonsContainer itemId={item.id} /> 
-              </div>
-              <div className={style.price}>
-                <h5>{item.quantity * item.price}</h5>
-              </div>
+      <div className={style.cart}>
+        {items.length ?
+          items.map((item)=> (
+          <div className={style.item} key={item.id}>
+            <Link to={`/catalog/${item.id}`}><img src={`${baseUrl}${item.src}`} alt={item.title}/></Link>
+            <div className={style.wrapper}>
+              <Link to={`/catalog/${item.id}`}><h4>{item.title}</h4></Link>
+              <div className="flex-between"><h5>Цена за шт:</h5><h5>{item.price}</h5></div>
+              <ItemsButtonsContainer itemId={item.id} /> 
             </div>
-          )) :
-          <div className={style.empty}>
-            <h4>Корзина пуста</h4>
+            <div className={style.price}>
+              <h5>{item.quantity * item.price} ₽</h5>
+            </div>
           </div>
-          }
+        )) :
+        <div className={style.empty}>
+          <h4>Корзина пуста</h4>
         </div>
+        }
+        <footer className={style.footer}>
+          <div className="flex-between">
+            <h4>Сумма</h4>
+            <h4>{cost} ₽</h4>
+          </div>
+        </footer>
       </div>
-      <footer className={style.footer}>
-        <div className="flex-between">
-          <h4>Сумма</h4>
-          <h4>{cost} ₽</h4>
-        </div>
-      </footer>
     </>
   );
 };
