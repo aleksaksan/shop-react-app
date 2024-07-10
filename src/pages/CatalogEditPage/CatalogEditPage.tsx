@@ -44,12 +44,14 @@ export const CatalogEditPage = () => {
   const handleSubmit = () => {
     const ids = items.map(item=>item.id);
     axios.put(productstUrl, ids);
+    alert('Сохранено!');
   }
 
   return (
     <div className="main">
       <div style={{height: '23px', width: '100%'}}>
         <Button onClick={handleSubmit}>Сохранить</Button>
+        ниже можно изменить порядок отображения карточек
       </div>
       <DndContext
         sensors={sensors}

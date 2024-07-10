@@ -16,6 +16,8 @@ import { DndContext, DragEndEvent, MouseSensor, TouchSensor, useSensor, useSenso
 import axios from 'axios';
 import { baseUrl, productstUrl } from '../../consts/consts';
 import { IImageModel } from '../../models/Product';
+import { useAppDispatch } from '../../hooks/storeHooks';
+import { fetchCatalog } from '../../store/catalogSlice';
 
 
 type ItemEdit = Omit<ItemCardProps, 'quantity' | 'src'> & Record<'fullDescription', string> & Record<'srcs', string[]>;
@@ -28,6 +30,7 @@ type selectedFileType = {
 
 
 export const EditCardPage = () => {
+  const dispatch = useAppDispatch();
   const { id } = useParams();
   const [item, setItem] = useState<ItemEdit | null>(null);
   const [description, setDescription] = useState('');
@@ -127,6 +130,7 @@ export const EditCardPage = () => {
     } catch (error) {
       console.log(error)
     }
+    dispatch(fetchCatalog());
   });
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
