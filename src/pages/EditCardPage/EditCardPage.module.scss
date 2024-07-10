@@ -139,5 +139,15 @@
       transform: rotate(90deg);
     }
   }
-
+  &:active {
+    border: 1px dashed $primary-blue;
+  
+    .plus {
+      transform: translateX(-16px);
+      
+      &::before, &::after {
+        background-color: $primary-blue;
+      }
+    }
+  }
 }

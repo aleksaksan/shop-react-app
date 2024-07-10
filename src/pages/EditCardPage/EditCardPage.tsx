@@ -113,14 +113,14 @@ export const EditCardPage = () => {
               "Content-Type": "multipart/form-data",
             },
           });
-          console.log(answ.data);
+          alert(answ.data);
         } else {
           const answ = await axios.post(`${productstUrl}`, formData, {
             headers: {
               "Content-Type": "multipart/form-data",
             },
           });
-          console.log(answ.data);
+          alert(answ.data);
         }
       }
 
