@@ -44,6 +44,7 @@ export const CatalogEditPage = () => {
   const handleSubmit = () => {
     const ids = items.map(item=>item.id);
     axios.put(productstUrl, ids);
+    dispatch(fetchCatalog());
     alert('Сохранено!');
   }
 
