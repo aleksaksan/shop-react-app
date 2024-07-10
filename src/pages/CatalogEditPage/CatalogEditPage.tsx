@@ -52,7 +52,7 @@ export const CatalogEditPage = () => {
       <div style={{height: '23px', width: '100%'}}>
         <Button onClick={handleSubmit}>Сохранить</Button>
       </div>
-      ниже можно изменить порядок отображения карточек
+      <div>ниже можно изменить порядок отображения карточек</div>
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}
