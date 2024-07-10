@@ -57,7 +57,7 @@ export const CartPage = () => {
             <Link to={`/catalog/${item.id}`}><img src={`${baseUrl}${item.src}`} alt={item.title}/></Link>
             <div className={style.wrapper}>
               <Link to={`/catalog/${item.id}`}><h4>{item.title}</h4></Link>
-              <div className="flex-between"><h5>Цена за шт:</h5><h5>{item.price}</h5></div>
+              <div className="flex-between"><h5>Цена за шт:</h5><h5>{item.price} &#8381</h5></div>
               <ItemsButtonsContainer itemId={item.id} /> 
             </div>
             <div className={style.price}>
@@ -73,7 +73,7 @@ export const CartPage = () => {
         <footer className={style.footer}>
           <div className="flex-between">
             <h4>Сумма</h4>
-            <h4>{cost} ₽</h4>
+            <h4>{cost} &#8381</h4>
           </div>
         </footer>
     </div>
