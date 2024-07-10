@@ -49,8 +49,8 @@ export const CartPage = () => {
   const cost = items.reduce((acc, item) => item.price * item.quantity + acc, 0)
 
   return (
-    <>
-      <div className={style.cart}>
+    <div className={style.cart}>
+      <div className={style.cart_wrapper}>
         {items.length ?
           items.map((item)=> (
           <div className={style.item} key={item.id}>
@@ -69,14 +69,14 @@ export const CartPage = () => {
           <h4>Корзина пуста</h4>
         </div>
         }
+      </div>
         <footer className={style.footer}>
           <div className="flex-between">
             <h4>Сумма</h4>
             <h4>{cost} ₽</h4>
           </div>
         </footer>
-      </div>
-    </>
+    </div>
   );
 };
 
