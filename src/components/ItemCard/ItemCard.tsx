@@ -33,7 +33,7 @@ const ItemInfo = (props: ItemCardProps) => {
       <div className={styles.image_wrapper}>
         <img src={`${baseUrl}/${props.src}`} alt={props.title} />
         <div className={styles.weight}>{props.weight} г</div>
-        <div className={styles.price}>{props.price} ₽</div>
+        <div className={styles.price}>{props.price} &#8381</div>
       </div>
       <h2>{props.title}</h2>
       {props.description && <p dangerouslySetInnerHTML={{__html: props.description}}></p>}

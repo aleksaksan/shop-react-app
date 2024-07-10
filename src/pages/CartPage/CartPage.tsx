@@ -61,7 +61,7 @@ export const CartPage = () => {
               <ItemsButtonsContainer itemId={item.id} /> 
             </div>
             <div className={style.price}>
-              <h5>{item.quantity * item.price} ₽</h5>
+              <h5>{item.quantity * item.price} &#8381</h5>
             </div>
           </div>
         )) :
